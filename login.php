@@ -1,6 +1,12 @@
 <?php
 session_start();
 require 'db.php';
+require 'auth.php';
+
+if (checkAuth($pdo)) {
+    header('Location: main.php');
+    exit;
+}
 
 if (isset($_SESSION['logged_in']) && $_SESSION['logged_in'] === true) {
     header('Location: main.php');
@@ -35,7 +41,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>login</title>
+    <title>Вхід</title>
 </head>
 
 <body>

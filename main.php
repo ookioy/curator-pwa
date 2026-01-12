@@ -1,43 +1,56 @@
 <?php
-session_start();
 require 'db.php';
+require 'auth.php';
 
-function checkAuth($pdo)
-{
-    if (isset($_SESSION['logged_in']) && $_SESSION['logged_in'] === true) return true;
+protectPage($pdo);
 
-    if (isset($_COOKIE['auth_token'])) {
-        $stmt = $pdo->prepare("SELECT setting_value FROM config WHERE setting_name = 'admin_password'");
-        $stmt->execute();
-        $config = $stmt->fetch();
+$stmt = $pdo->query("SELECT id, full_name FROM students ORDER BY full_name ASC");
+$students = $stmt->fetchAll();
 
-        $expected_token = md5($config['setting_value'] . 'salt123');
-
-        if ($_COOKIE['auth_token'] === $expected_token) {
-            $_SESSION['logged_in'] = true;
-            return true;
-        }
-    }
-    return false;
-}
-
-if (!checkAuth($pdo)) {
-    header('Location: login.php');
-    exit;
-}
+$pageTitle = "Головна - Список групи";
+require 'blocks/header.php';
 ?>
 
-<!DOCTYPE html>
-<html lang="uk">
-
-<head>
-    <meta charset="UTF-8">
-    <title>Головна сторінка</title>
-</head>
-
-<body>
+<main>
     <h1>Вітаємо в системі!</h1>
-    <a href="logout.php">Вийти (logout)</a>
-</body>
+    <nav>
+        <a href="add_student.php">Додати студента</a> | 
+        <a href="logout.php">Вийти (logout)</a>
+        <br><br>
+        <form action="find_student.php" method="get">
+            <input type="text" name="q" placeholder="Пошук студента">
+            <button type="submit">Знайти</button>
+        </form>
+    </nav>
 
-</html>
+    <hr>
+
+    <h2>Список групи</h2>
+
+    <?php if (empty($students)): ?>
+        <p>Студентів ще не додано.</p>
+    <?php else: ?>
+        <table border="1" cellpadding="10" cellspacing="0">
+            <thead>
+                <tr>
+                    <th>ПІБ Студента</th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php foreach ($students as $s): ?>
+                <tr>
+                    <td>
+                        <a href="view_student.php?id=<?= $s['id'] ?>">
+                            <?= htmlspecialchars($s['full_name']) ?>
+                        </a>
+                    </td>
+                </tr>
+                <?php endforeach; ?>
+            </tbody>
+        </table>
+    <?php endif; ?>
+</main>
+
+<?php
+require 'blocks/footer.php';
+?>
