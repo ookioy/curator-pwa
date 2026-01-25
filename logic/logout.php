@@ -1,6 +1,7 @@
 <?php
+// Підключення до БД
 session_start();
-require 'logic/db.php';
+require 'db.php';
 
 // Видаляємо токен з БД якщо він є
 if (isset($_COOKIE['auth_token'])) {
@@ -30,5 +31,6 @@ if (isset($_COOKIE['auth_token'])) {
 // Знищуємо сесію
 session_destroy();
 
-header('Location: login.php');
+// Перенаправляємо на логін (тепер треба піднятись на рівень вище)
+header('Location: ../login.php');
 exit;

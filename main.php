@@ -1,9 +1,11 @@
 <?php
+// Підключення до бази даних та перевірка авторизації
 require 'logic/db.php';
 require 'logic/auth.php';
 
 protectPage($pdo);
 
+// Отримуємо список всіх студентів
 $stmt = $pdo->query("SELECT id, full_name, phone FROM students ORDER BY full_name ASC");
 $students = $stmt->fetchAll();
 
@@ -14,37 +16,45 @@ require 'blocks/header.php';
 <main>
     <h2>Список групи</h2>
 
+    <!-- Повідомлення про успішні дії -->
     <?php if (isset($_GET['success'])): ?>
-        <p class="message success">Студента успішно додано!</p>
+        <p><strong>Студента успішно додано!</strong></p>
     <?php endif; ?>
 
     <?php if (isset($_GET['deleted'])): ?>
-        <p class="message success">Студента успішно видалено!</p>
+        <p><strong>Студента успішно видалено!</strong></p>
     <?php endif; ?>
 
+    <!-- Перевірка чи є студенти -->
     <?php if (empty($students)): ?>
-        <p>Студентів ще не додано.</p>
+        <p><em>Студентів ще не додано.</em></p>
     <?php else: ?>
         <p>Всього студентів: <strong><?= count($students) ?></strong></p>
         
-        <table>
+        <!-- Таблиця зі списком студентів -->
+        <table border="1" cellpadding="10" cellspacing="0" width="100%">
             <thead>
-                <tr>
-                    <th>ПІБ Студента</th>
-                    <th>Телефон</th>
-                    <th>Дії</th>
+                <tr bgcolor="#e0e0e0">
+                    <th align="left" width="50%">ПІБ Студента</th>
+                    <th align="left" width="30%">Телефон</th>
+                    <th align="center" width="20%">Дії</th>
                 </tr>
             </thead>
             <tbody>
                 <?php foreach ($students as $s): ?>
                 <tr>
+                    <!-- ПІБ з посиланням на профіль -->
                     <td>
                         <a href="view_student.php?id=<?= $s['id'] ?>">
-                            <?= htmlspecialchars($s['full_name']) ?>
+                            <strong><?= htmlspecialchars($s['full_name']) ?></strong>
                         </a>
                     </td>
+                    
+                    <!-- Телефон -->
                     <td><?= htmlspecialchars($s['phone'] ?? '—') ?></td>
-                    <td>
+                    
+                    <!-- Кнопка видалення -->
+                    <td align="center">
                         <form action="logic/delete_student.php" method="POST" onsubmit="return confirm('Ви впевнені, що хочете видалити студента <?= htmlspecialchars($s['full_name']) ?>? Також будуть видалені всі дані про батьків!');">
                             <input type="hidden" name="student_id" value="<?= $s['id'] ?>">
                             <button type="submit">Видалити</button>
