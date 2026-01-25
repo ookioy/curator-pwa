@@ -9,28 +9,31 @@ require 'blocks/header.php';
 ?>
 
 <main>
-    <a href="main.php">← Назад до списку</a>
+    <nav>
+        <a href="main.php">Назад до списку</a>
+    </nav>
+    
     <h1>Зміна пароля</h1>
 
     <?php if (isset($_GET['success'])): ?>
-        <p><strong>Пароль успішно змінено!</strong></p>
-        <p>З міркувань безпеки всі активні сесії скинуто. Будь ласка, увійдіть заново.</p>
+        <p class="message success">
+            Пароль успішно змінено! З міркувань безпеки всі активні сесії скинуто. 
+            Будь ласка, увійдіть заново.
+        </p>
     <?php endif; ?>
 
     <?php if (isset($_GET['error'])): ?>
-        <p><strong>❌ Помилка:</strong></p>
-        <p>
-            <?php 
-                $errors = [
-                    'current' => 'Поточний пароль невірний!',
-                    'length' => 'Новий пароль повинен містити мінімум 6 символів!',
-                    'match' => 'Новий пароль та підтвердження не збігаються!',
-                    'same' => 'Новий пароль не може бути таким самим як старий!',
-                    'db' => 'Помилка бази даних при зміні пароля!'
-                ];
-                echo htmlspecialchars($errors[$_GET['error']] ?? 'Невідома помилка!');
-            ?>
-        </p>
+        <?php 
+            $errors = [
+                'current' => 'Поточний пароль невірний!',
+                'length' => 'Новий пароль повинен містити мінімум 6 символів!',
+                'match' => 'Новий пароль та підтвердження не збігаються!',
+                'same' => 'Новий пароль не може бути таким самим як старий!',
+                'db' => 'Помилка бази даних при зміні пароля!'
+            ];
+            $errorMessage = $errors[$_GET['error']] ?? 'Невідома помилка!';
+        ?>
+        <p class="message error"><?= htmlspecialchars($errorMessage) ?></p>
     <?php endif; ?>
 
     <form method="POST" action="logic/update_password.php">
@@ -38,7 +41,7 @@ require 'blocks/header.php';
             <legend>Зміна пароля адміністратора</legend>
             
             <p>
-                <label for="current_password">Поточний пароль:</label><br>
+                <label for="current_password">Поточний пароль:</label>
                 <input type="password" 
                        id="current_password"
                        name="current_password" 
@@ -47,17 +50,17 @@ require 'blocks/header.php';
             </p>
 
             <p>
-                <label for="new_password">Новий пароль:</label><br>
+                <label for="new_password">Новий пароль:</label>
                 <input type="password" 
                        id="new_password"
                        name="new_password" 
                        required 
                        minlength="6">
-                <br><small>(Мінімум 6 символів)</small>
+                <small>(Мінімум 6 символів)</small>
             </p>
 
             <p>
-                <label for="confirm_password">Підтвердіть новий пароль:</label><br>
+                <label for="confirm_password">Підтвердіть новий пароль:</label>
                 <input type="password" 
                        id="confirm_password"
                        name="confirm_password" 

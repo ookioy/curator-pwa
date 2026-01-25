@@ -15,18 +15,19 @@ require 'blocks/header.php';
     <h2>Список групи</h2>
 
     <?php if (isset($_GET['success'])): ?>
-        <p><b>Студента успішно додано!</b></p>
+        <p class="message success">Студента успішно додано!</p>
     <?php endif; ?>
 
     <?php if (isset($_GET['deleted'])): ?>
-        <p><b>Студента успішно видалено!</b></p>
+        <p class="message success">Студента успішно видалено!</p>
     <?php endif; ?>
 
     <?php if (empty($students)): ?>
         <p>Студентів ще не додано.</p>
     <?php else: ?>
         <p>Всього студентів: <strong><?= count($students) ?></strong></p>
-        <table border="1" cellpadding="10" cellspacing="0">
+        
+        <table>
             <thead>
                 <tr>
                     <th>ПІБ Студента</th>
@@ -44,7 +45,7 @@ require 'blocks/header.php';
                     </td>
                     <td><?= htmlspecialchars($s['phone'] ?? '—') ?></td>
                     <td>
-                        <form action="logic/delete_student.php" method="POST" style="display: inline;" onsubmit="return confirm('Ви впевнені, що хочете видалити студента <?= htmlspecialchars($s['full_name']) ?>? Також будуть видалені всі дані про батьків!');">
+                        <form action="logic/delete_student.php" method="POST" onsubmit="return confirm('Ви впевнені, що хочете видалити студента <?= htmlspecialchars($s['full_name']) ?>? Також будуть видалені всі дані про батьків!');">
                             <input type="hidden" name="student_id" value="<?= $s['id'] ?>">
                             <button type="submit">Видалити</button>
                         </form>
@@ -56,6 +57,4 @@ require 'blocks/header.php';
     <?php endif; ?>
 </main>
 
-<?php
-require 'blocks/footer.php';
-?>
+<?php require 'blocks/footer.php'; ?>

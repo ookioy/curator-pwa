@@ -72,11 +72,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <h1>Вхід до системи</h1>
 
         <?php if ($success): ?>
-            <p><strong>✅ Пароль успішно змінено! Увійдіть з новим паролем.</strong></p>
+            <p class="message success">Пароль успішно змінено! Увійдіть з новим паролем.</p>
         <?php endif; ?>
 
         <?php if ($error): ?>
-            <p><strong>❌ <?= htmlspecialchars($error) ?></strong></p>
+            <p class="message error"><?= htmlspecialchars($error) ?></p>
         <?php endif; ?>
 
         <form method="POST">
@@ -84,7 +84,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 <legend>Авторизація</legend>
                 
                 <p>
-                    <label for="password">Пароль:</label><br>
+                    <label for="password">Пароль:</label>
                     <input type="password" 
                            id="password"
                            name="password" 

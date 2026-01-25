@@ -18,7 +18,10 @@ require 'blocks/header.php';
 ?>
 
 <main>
-    <a href="main.php">До списку</a>
+    <nav>
+        <a href="main.php">До списку</a>
+    </nav>
+    
     <h1>Результати пошуку</h1>
 
     <?php if ($search_query): ?>
@@ -28,7 +31,7 @@ require 'blocks/header.php';
             <p>Нічого не знайдено.</p>
         <?php else: ?>
             <p>Знайдено: <?= count($results) ?> студентів</p>
-            <table border="1" cellpadding="10" cellspacing="0">
+            <table>
                 <thead>
                     <tr>
                         <th>ПІБ</th>
@@ -46,8 +49,8 @@ require 'blocks/header.php';
                             </td>
                             <td><?= htmlspecialchars($student['phone'] ?? '—') ?></td>
                             <td>
-                                <form action="logic/delete_student.php" method="POST" style="display: inline;" onsubmit="return confirm('Ви впевнені, що хочете видалити студента <?= htmlspecialchars($s['full_name']) ?>? Також будуть видалені всі дані про батьків!');">
-                                    <input type="hidden" name="student_id" value="<?= $s['id'] ?>">
+                                <form action="logic/delete_student.php" method="POST" onsubmit="return confirm('Ви впевнені, що хочете видалити студента <?= htmlspecialchars($student['full_name']) ?>? Також будуть видалені всі дані про батьків!');">
+                                    <input type="hidden" name="student_id" value="<?= $student['id'] ?>">
                                     <button type="submit">Видалити</button>
                                 </form>
                             </td>
