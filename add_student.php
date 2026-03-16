@@ -25,8 +25,8 @@ require 'blocks/header.php';
                     <td><input type="text" id="full_name" name="full_name" size="40" required></td>
                 </tr>
                 <tr>
-                    <td><label for="phone">Телефон:</label></td>
-                    <td><input type="tel" id="phone" name="phone" size="40"></td>
+                    <td><label for="phone">Телефон: <em>*</em></label></td>
+                    <td><input type="tel" id="phone" name="phone" size="40"  required></td>
                 </tr>
                 <tr>
                     <td><label for="birth_date">Дата народження:</label></td>
