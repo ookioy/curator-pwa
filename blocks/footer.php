@@ -2,20 +2,6 @@
         <p><small>&copy; <?= date('Y') ?> Система куратора</small></p>
     </footer>
 
-    <div id="modal-overlay" class="modal-overlay" role="dialog" aria-modal="true" aria-labelledby="modal-title">
-        <div class="modal-card">
-            <div class="modal-icon-wrap">
-                <span class="modal-icon" id="modal-icon"><i class="fa-solid fa-triangle-exclamation"></i></span>
-            </div>
-            <h3 class="modal-title" id="modal-title">Підтвердження</h3>
-            <p class="modal-message" id="modal-message"></p>
-            <div class="modal-actions">
-                <button class="modal-btn modal-btn-cancel" id="modal-cancel">Скасувати</button>
-                <button class="modal-btn modal-btn-confirm" id="modal-confirm">Підтвердити</button>
-            </div>
-        </div>
-    </div>
-
     <style>
         .modal-overlay {
             position: fixed; inset: 0; z-index: 9999;

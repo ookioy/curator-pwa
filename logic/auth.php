@@ -1,6 +1,4 @@
 <?php
-session_start();
-
 function checkAuth($pdo) {
     if (isset($_SESSION['logged_in']) && $_SESSION['logged_in'] === true) {
         return true;
