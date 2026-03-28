@@ -18,7 +18,7 @@ require 'blocks/header.php';
 ?>
 
 <main>
-    <p><a href="main.php">&larr; До списку</a></p>
+    <p><a href="index.php">&larr; До списку</a></p>
     <h2>Результати пошуку</h2>
 
     <?php if ($search_query): ?>

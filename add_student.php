@@ -1,5 +1,4 @@
 <?php
-// Підключення до БД та перевірка авторизації
 require 'logic/db.php';
 require 'logic/auth.php';
 
@@ -10,7 +9,7 @@ require 'blocks/header.php';
 ?>
 
 <main>
-    <p><a href="main.php">&larr; Назад до списку</a></p>
+    <p><a href="index.php">&larr; Назад до списку</a></p>
 
     <h2>Нова картка студента</h2>
 
@@ -25,8 +24,8 @@ require 'blocks/header.php';
                     <td><input type="text" id="full_name" name="full_name" size="40" required></td>
                 </tr>
                 <tr>
-                    <td><label for="phone">Телефон: <em>*</em></label></td>
-                    <td><input type="tel" id="phone" name="phone" size="40"  required></td>
+                    <td><label for="phone">Телефон:</label></td>
+                    <td><input type="tel" id="phone" name="phone" size="40"></td>
                 </tr>
                 <tr>
                     <td><label for="birth_date">Дата народження:</label></td>
@@ -82,7 +81,6 @@ require 'blocks/header.php';
             <div>
                 <h3>Батько</h3>
                 <input type="hidden" name="p_type[]" value="father">
-                
                 <table border="0" cellpadding="5">
                     <tr>
                         <td><label>ПІБ:</label></td>
@@ -102,7 +100,6 @@ require 'blocks/header.php';
             <div>
                 <h3>Мати</h3>
                 <input type="hidden" name="p_type[]" value="mother">
-                
                 <table border="0" cellpadding="5">
                     <tr>
                         <td><label>ПІБ:</label></td>
@@ -118,7 +115,6 @@ require 'blocks/header.php';
                     </tr>
                 </table>
             </div>
-            
         </fieldset>
 
         <br>

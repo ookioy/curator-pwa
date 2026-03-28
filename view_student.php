@@ -4,15 +4,13 @@ require 'logic/auth.php';
 protectPage($pdo);
 
 $id = $_GET['id'] ?? null;
-if (!$id) { header('Location: main.php'); exit; }
+if (!$id) { header('Location: index.php'); exit; }
 
-// Отримуємо студента
 $stmt = $pdo->prepare("SELECT * FROM students WHERE id = ?");
 $stmt->execute([$id]);
 $student = $stmt->fetch();
 if (!$student) die("Студента не знайдено!");
 
-// Отримуємо батьків
 $stmt_parents = $pdo->prepare("SELECT * FROM parents WHERE student_id = ?");
 $stmt_parents->execute([$id]);
 $parents = $stmt_parents->fetchAll();
@@ -23,7 +21,7 @@ require 'blocks/header.php';
 
 <main>
     <div style="display: flex; justify-content: space-between; align-items: center;">
-        <p><a href="main.php" style="text-decoration: none;">&larr; Назад до списку</a></p>
+        <p><a href="index.php" style="text-decoration: none;">&larr; Назад до списку</a></p>
         
         <a href="edit_student.php?id=<?= $student['id'] ?>">
             <button style="background: #FFC107; border: none; padding: 10px 20px; cursor: pointer; border-radius: 5px;">
@@ -78,7 +76,7 @@ require 'blocks/header.php';
                 <td><strong>Хобі/Інтереси:</strong></td>
                 <td><?= nl2br(htmlspecialchars($student['activities'] ?? '—')) ?></td>
             </tr>
-             <tr>
+            <tr>
                 <td><strong>Досвід роботи:</strong></td>
                 <td><?= $student['has_experience'] ? '✅ Є досвід' : '❌ Немає досвіду' ?></td>
             </tr>

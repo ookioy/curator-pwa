@@ -5,7 +5,7 @@ require 'logic/auth.php';
 protectPage($pdo);
 
 $id = $_GET['id'] ?? null;
-if (!$id) { header('Location: main.php'); exit; }
+if (!$id) { header('Location: index.php'); exit; }
 
 $stmt = $pdo->prepare("SELECT * FROM students WHERE id = ?");
 $stmt->execute([$id]);
@@ -29,7 +29,7 @@ require 'blocks/header.php';
 ?>
 
 <main>
-    <p><a href="main.php">&larr; Назад до списку</a></p>
+    <p><a href="index.php">&larr; Назад до списку</a></p>
 
     <h2>Редагування картки студента</h2>
 
@@ -39,7 +39,6 @@ require 'blocks/header.php';
         </p>
     <?php endif; ?>
 
-    <!-- onsubmit removed — modal in footer handles confirmation -->
     <form action="logic/update_student.php" method="POST">
         <input type="hidden" name="id" value="<?= $student['id'] ?>">
 

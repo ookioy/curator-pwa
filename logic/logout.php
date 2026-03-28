@@ -1,14 +1,11 @@
 <?php
-// Підключення до БД
 session_start();
 require 'db.php';
 
-// Видаляємо токен з БД якщо він є
 if (isset($_COOKIE['auth_token'])) {
     try {
         $token = $_COOKIE['auth_token'];
         
-        // Знаходимо і видаляємо токен
         $stmt = $pdo->prepare("SELECT id, token_hash FROM auth_tokens");
         $stmt->execute();
         $tokens = $stmt->fetchAll();
@@ -20,17 +17,12 @@ if (isset($_COOKIE['auth_token'])) {
                 break;
             }
         }
-    } catch (Exception $e) {
-        // Ігноруємо помилки при logout
-    }
+    } catch (Exception $e) {}
     
-    // Видаляємо cookie
     setcookie('auth_token', '', time() - 3600, "/");
 }
 
-// Знищуємо сесію
 session_destroy();
 
-// Перенаправляємо на логін (тепер треба піднятись на рівень вище)
 header('Location: ../login.php');
 exit;

@@ -4,7 +4,7 @@ require 'logic/db.php';
 require 'logic/auth.php';
 
 if (checkAuth($pdo)) {
-    header('Location: main.php');
+    header('Location: index.php');
     exit;
 }
 
@@ -31,10 +31,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $stmt_token = $pdo->prepare("INSERT INTO auth_tokens (token_hash, created_at) VALUES (?, NOW())");
                 $stmt_token->execute([$token_hash]);
                 setcookie('auth_token', $token, time() + (3600 * 24 * 30), "/", "", false, true);
-            } catch (Exception $e) { /* continue without remember */ }
+            } catch (Exception $e) {}
         }
 
-        header('Location: main.php');
+        header('Location: index.php');
         exit;
     } else {
         $error = 'Невірний пароль!';
@@ -90,7 +90,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             padding: 1.5rem;
         }
 
-        /* ── Card ── */
         .login-card {
             background: var(--surface);
             border: 1px solid var(--border);
@@ -101,7 +100,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             overflow: hidden;
         }
 
-        /* ── Card header ── */
         .login-header {
             background: var(--accent);
             padding: 2rem 2rem 1.75rem;
@@ -128,10 +126,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             margin: .2rem 0 0;
         }
 
-        /* ── Card body ── */
         .login-body { padding: 1.75rem 2rem 2rem; }
 
-        /* ── Alerts ── */
         .alert {
             display: flex;
             align-items: flex-start;
@@ -146,7 +142,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         .alert-error  { background: var(--warn-lt); color: var(--warn); border: 1px solid var(--warn-border); }
         .alert-success { background: var(--ok-lt); color: var(--ok); border: 1px solid var(--ok-border); }
 
-        /* ── Form fields ── */
         .field { margin-bottom: 1.1rem; }
         .field label {
             display: block;
@@ -156,9 +151,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             margin-bottom: .38rem;
         }
 
-        .input-wrap {
-            position: relative;
-        }
+        .input-wrap { position: relative; }
         .input-wrap i {
             position: absolute;
             left: .78rem; top: 50%;
@@ -186,7 +179,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
         .input-wrap input::placeholder { color: var(--text-3); }
 
-        /* ── Remember ── */
         .remember {
             display: flex;
             align-items: center;
@@ -205,7 +197,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             user-select: none;
         }
 
-        /* ── Submit ── */
         .btn-login {
             width: 100%;
             padding: .65rem 1rem;
@@ -226,7 +217,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         .btn-login:hover  { background: var(--accent-dark); }
         .btn-login:active { transform: scale(.98); }
 
-        /* ── Footer ── */
         .login-footer {
             text-align: center;
             margin-top: 1.75rem;
@@ -238,7 +228,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <body>
 
     <div class="login-card">
-        <!-- Header -->
         <div class="login-header">
             <div class="login-logo">
                 <i class="fa-solid fa-graduation-cap"></i>
@@ -247,7 +236,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <p>Введіть пароль для входу</p>
         </div>
 
-        <!-- Body -->
         <div class="login-body">
 
             <?php if ($success): ?>
