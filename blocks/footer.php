@@ -79,6 +79,8 @@
             border-radius: 7px; border: 1px solid transparent;
             cursor: pointer; transition: all .15s ease;
             flex: 1;
+            text-align: center;
+            justify-content: center;
         }
         .modal-btn-cancel {
             background: #f7f5f2; color: #5a5750;
@@ -126,54 +128,54 @@
             return new Promise(resolve => { _resolve = resolve; });
         };
 
-        function close(result) {
+        function closeModal(result) {
             overlay.classList.remove('active');
             if (_resolve) { _resolve(result); _resolve = null; }
         }
 
-        btnOk.addEventListener('click',     () => close(true));
-        btnCancel.addEventListener('click',  () => close(false));
-        overlay.addEventListener('click', e => { if (e.target === overlay) close(false); });
+        btnOk.addEventListener('click',     () => closeModal(true));
+        btnCancel.addEventListener('click',  () => closeModal(false));
+        overlay.addEventListener('click', e => { if (e.target === overlay) closeModal(false); });
         document.addEventListener('keydown', e => {
             if (!overlay.classList.contains('active')) return;
-            if (e.key === 'Escape') close(false);
-            if (e.key === 'Enter')  { e.preventDefault(); close(true); }
+            if (e.key === 'Escape') closeModal(false);
+            if (e.key === 'Enter')  { e.preventDefault(); closeModal(true); }
         });
 
         document.addEventListener('submit', async function (e) {
             const form = e.target;
-            if (!form.action.includes('delete_student') && !form.action.includes('delete_parent')) return;
+
+            const isDelete = form.action.includes('delete_student') || form.action.includes('delete_parent');
+            const isSave   = form.action.includes('update_student');
+
+            if (!isDelete && !isSave) return;
 
             e.preventDefault();
+            e.stopImmediatePropagation();
 
-            const studentName = form.querySelector('input[name="student_id"]')
-                ? (form.closest('tr')?.querySelector('td strong')?.textContent || 'цього студента')
-                : 'цього запису';
+            let confirmed = false;
 
-            const confirmed = await window.showModal({
-                title:       'Видалити запис?',
-                message:     `Ви впевнені, що хочете видалити ${studentName}? Всі пов'язані дані будуть втрачені назавжди.`,
-                type:        'danger',
-                confirmText: 'Так, видалити',
-                cancelText:  'Скасувати',
-            });
+            if (isDelete) {
+                const studentName = form.querySelector('input[name="student_id"]')
+                    ? (form.closest('tr')?.querySelector('td strong')?.textContent || 'цього студента')
+                    : 'цього запису';
 
-            if (confirmed) form.submit();
-        });
-
-        document.addEventListener('submit', async function (e) {
-            const form = e.target;
-            if (!form.action.includes('update_student')) return;
-
-            e.preventDefault();
-
-            const confirmed = await window.showModal({
-                title:       'Зберегти зміни?',
-                message:     'Підтвердіть збереження змін до картки студента.',
-                type:        'success',
-                confirmText: 'Зберегти',
-                cancelText:  'Скасувати',
-            });
+                confirmed = await window.showModal({
+                    title:       'Видалити запис?',
+                    message:     `Ви впевнені, що хочете видалити ${studentName}? Всі пов'язані дані будуть втрачені назавжди.`,
+                    type:        'danger',
+                    confirmText: 'Так, видалити',
+                    cancelText:  'Скасувати',
+                });
+            } else if (isSave) {
+                confirmed = await window.showModal({
+                    title:       'Зберегти зміни?',
+                    message:     'Підтвердіть збереження змін до картки студента.',
+                    type:        'success',
+                    confirmText: 'Зберегти',
+                    cancelText:  'Скасувати',
+                });
+            }
 
             if (confirmed) form.submit();
         });
