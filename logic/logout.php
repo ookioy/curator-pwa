@@ -1,6 +1,10 @@
 <?php
-session_start();
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
+
 require 'db.php';
+require 'auth.php';
 
 if (isset($_COOKIE['auth_token'])) {
     try {
@@ -22,6 +26,7 @@ if (isset($_COOKIE['auth_token'])) {
     setcookie('auth_token', '', time() - 3600, "/");
 }
 
+$_SESSION = [];
 session_destroy();
 
 header('Location: ../login.php');

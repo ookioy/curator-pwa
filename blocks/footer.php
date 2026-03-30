@@ -2,6 +2,23 @@
         <p><small>&copy; <?= date('Y') ?> Система куратора</small></p>
     </footer>
 
+    <!-- ── MODAL OVERLAY (HTML розмітка) ────────────────────────── -->
+    <div class="modal-overlay" id="modal-overlay">
+        <div class="modal-card">
+            <div class="modal-icon-wrap">
+                <div class="modal-icon warn" id="modal-icon">
+                    <i class="fa-solid fa-triangle-exclamation"></i>
+                </div>
+            </div>
+            <div class="modal-title" id="modal-title">Підтвердження</div>
+            <div class="modal-message" id="modal-message"></div>
+            <div class="modal-actions">
+                <button class="modal-btn modal-btn-cancel" id="modal-cancel">Скасувати</button>
+                <button class="modal-btn modal-btn-confirm" id="modal-confirm">Підтвердити</button>
+            </div>
+        </div>
+    </div>
+
     <style>
         .modal-overlay {
             position: fixed; inset: 0; z-index: 9999;
@@ -132,7 +149,7 @@
             const form = e.target;
 
             const isDelete = form.action.includes('delete_student') || form.action.includes('delete_parent');
-            const isSave   = form.action.includes('update_student');
+            const isSave   = form.action.includes('update_student') || form.action.includes('update_parent') || form.action.includes('insert_student');
 
             if (!isDelete && !isSave) return;
 
@@ -142,13 +159,16 @@
             let confirmed = false;
 
             if (isDelete) {
-                const studentName = form.querySelector('input[name="student_id"]')
-                    ? (form.closest('tr')?.querySelector('td strong')?.textContent || 'цього студента')
+                // Спробуємо знайти ім'я студента в рядку таблиці
+                const nameEl = form.closest('tr')?.querySelector('td strong')
+                            ?? form.closest('fieldset')?.querySelector('input[name="full_name"]');
+                const studentName = nameEl
+                    ? (nameEl.textContent || nameEl.value || 'цього запису')
                     : 'цього запису';
 
                 confirmed = await window.showModal({
                     title:       'Видалити запис?',
-                    message:     `Ви впевнені, що хочете видалити ${studentName}? Всі пов'язані дані будуть втрачені назавжди.`,
+                    message:     `Ви впевнені, що хочете видалити «${studentName}»? Всі пов'язані дані будуть втрачені назавжди.`,
                     type:        'danger',
                     confirmText: 'Так, видалити',
                     cancelText:  'Скасувати',

@@ -1,4 +1,8 @@
 <?php
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
+
 function checkAuth($pdo) {
     if (isset($_SESSION['logged_in']) && $_SESSION['logged_in'] === true) {
         return true;
@@ -31,7 +35,11 @@ function checkAuth($pdo) {
 
 function protectPage($pdo) {
     if (!checkAuth($pdo)) {
-        header('Location: login.php');
+        // Визначаємо правильний шлях до login.php відносно кореня
+        $script = $_SERVER['SCRIPT_NAME'] ?? '';
+        $inLogic = str_contains($script, '/logic/');
+        $redirect = $inLogic ? '../login.php' : 'login.php';
+        header('Location: ' . $redirect);
         exit;
     }
 }
