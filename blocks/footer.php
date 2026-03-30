@@ -145,21 +145,27 @@
             if (e.key === 'Enter')  { e.preventDefault(); closeModal(true); }
         });
 
+        // Зберігаємо форми які вже підтверджені, щоб не перехоплювати їх вдруге
+        const confirmedForms = new WeakSet();
+
         document.addEventListener('submit', async function (e) {
             const form = e.target;
+
+            // Якщо форма вже підтверджена — дозволяємо сабміт пройти
+            if (confirmedForms.has(form)) return;
 
             const isDelete = form.action.includes('delete_student') || form.action.includes('delete_parent');
             const isSave   = form.action.includes('update_student') || form.action.includes('update_parent') || form.action.includes('insert_student');
 
             if (!isDelete && !isSave) return;
 
+            // Зупиняємо форму до підтвердження
             e.preventDefault();
             e.stopImmediatePropagation();
 
             let confirmed = false;
 
             if (isDelete) {
-                // Спробуємо знайти ім'я студента в рядку таблиці
                 const nameEl = form.closest('tr')?.querySelector('td strong')
                             ?? form.closest('fieldset')?.querySelector('input[name="full_name"]');
                 const studentName = nameEl
@@ -183,7 +189,11 @@
                 });
             }
 
-            if (confirmed) form.submit();
+            if (confirmed) {
+                // Позначаємо форму як підтверджену і сабмітимо нативно
+                confirmedForms.add(form);
+                form.submit();
+            }
         });
 
     })();

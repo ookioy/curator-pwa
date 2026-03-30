@@ -1,7 +1,7 @@
 <?php
-$host = 'mysql-currator-pwa.alwaysdata.net';
-$db   = 'currator-pwa_curator_system';
-$user = 'currator-pwa_curator_admin';
+$host = 'mysql-curator.alwaysdata.net';
+$db   = 'curator_db';
+$user = 'curator';
 $pass = 'w1m5YB65';
 $charset = 'utf8mb4';
 
