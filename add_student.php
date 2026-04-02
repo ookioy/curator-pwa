@@ -24,8 +24,30 @@ require 'blocks/header.php';
                     <td><input type="text" id="full_name" name="full_name" size="40" required></td>
                 </tr>
                 <tr>
-                    <td><label for="phone">Телефон:</label></td>
-                    <td><input type="tel" id="phone" name="phone" size="40"></td>
+                    <td><label for="phone_number">Телефон:</label></td>
+                    <td>
+                        <div class="phone-field-wrap">
+                            <select name="phone_prefix" id="phone_prefix" class="phone-prefix-select">
+                                <option value="+380" selected>🇺🇦 +380</option>
+                                <option value="+48">🇵🇱 +48</option>
+                                <option value="+49">🇩🇪 +49</option>
+                                <option value="+44">🇬🇧 +44</option>
+                                <option value="+1">🇺🇸 +1</option>
+                                <option value="+33">🇫🇷 +33</option>
+                                <option value="+39">🇮🇹 +39</option>
+                                <option value="+34">🇪🇸 +34</option>
+                                <option value="+40">🇷🇴 +40</option>
+                                <option value="+36">🇭🇺 +36</option>
+                                <option value="+420">🇨🇿 +420</option>
+                                <option value="+421">🇸🇰 +421</option>
+                                <option value="+372">🇪🇪 +372</option>
+                                <option value="+371">🇱🇻 +371</option>
+                                <option value="+370">🇱🇹 +370</option>
+                            </select>
+                            <input type="tel" id="phone_number" name="phone_number" class="phone-number-input" placeholder="50 123 45 67">
+                        </div>
+                        <input type="hidden" name="phone" id="phone_combined">
+                    </td>
                 </tr>
                 <tr>
                     <td><label for="birth_date">Дата народження:</label></td>
@@ -123,5 +145,21 @@ require 'blocks/header.php';
         </p>
     </form>
 </main>
+
+<script>
+(function () {
+    var prefix = document.getElementById('phone_prefix');
+    var number = document.getElementById('phone_number');
+    var combined = document.getElementById('phone_combined');
+
+    function update() {
+        combined.value = number.value.trim() ? prefix.value + number.value.trim() : '';
+    }
+
+    prefix.addEventListener('change', update);
+    number.addEventListener('input', update);
+    update();
+})();
+</script>
 
 <?php require 'blocks/footer.php'; ?>

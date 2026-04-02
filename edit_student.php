@@ -24,6 +24,25 @@ foreach ($parents_list as $p) {
     if ($p['type'] === 'mother') $mother = $p;
 }
 
+// Parse stored phone into prefix + number
+$knownPrefixes = ['+380','+48','+49','+44','+33','+39','+34','+40','+36','+420','+421','+372','+371','+370','+7','+1'];
+$storedPhone   = $student['phone'] ?? '';
+$savedPrefix   = '+380';
+$savedNumber   = '';
+
+if ($storedPhone !== '') {
+    foreach ($knownPrefixes as $pfx) {
+        if (str_starts_with($storedPhone, $pfx)) {
+            $savedPrefix = $pfx;
+            $savedNumber = substr($storedPhone, strlen($pfx));
+            break;
+        }
+    }
+    if ($savedNumber === '') {
+        $savedNumber = $storedPhone;
+    }
+}
+
 $pageTitle = "Редагування: " . htmlspecialchars($student['full_name']);
 require 'blocks/header.php';
 ?>
@@ -50,8 +69,40 @@ require 'blocks/header.php';
                     <td><input type="text" id="full_name" name="full_name" value="<?= htmlspecialchars($student['full_name']) ?>" size="40" required></td>
                 </tr>
                 <tr>
-                    <td><label for="phone">Телефон:</label></td>
-                    <td><input type="tel" id="phone" name="phone" value="<?= htmlspecialchars($student['phone'] ?? '') ?>" size="40"></td>
+                    <td><label for="phone_number">Телефон:</label></td>
+                    <td>
+                        <div class="phone-field-wrap">
+                            <select name="phone_prefix" id="phone_prefix" class="phone-prefix-select">
+                                <?php
+                                $prefixOptions = [
+                                    '+380' => '🇺🇦 +380',
+                                    '+48'  => '🇵🇱 +48',
+                                    '+49'  => '🇩🇪 +49',
+                                    '+44'  => '🇬🇧 +44',
+                                    '+1'   => '🇺🇸 +1',
+                                    '+33'  => '🇫🇷 +33',
+                                    '+39'  => '🇮🇹 +39',
+                                    '+34'  => '🇪🇸 +34',
+                                    '+40'  => '🇷🇴 +40',
+                                    '+36'  => '🇭🇺 +36',
+                                    '+420' => '🇨🇿 +420',
+                                    '+421' => '🇸🇰 +421',
+                                    '+372' => '🇪🇪 +372',
+                                    '+371' => '🇱🇻 +371',
+                                    '+370' => '🇱🇹 +370',
+                                ];
+                                foreach ($prefixOptions as $val => $label):
+                                    $sel = ($val === $savedPrefix) ? 'selected' : '';
+                                ?>
+                                    <option value="<?= $val ?>" <?= $sel ?>><?= $label ?></option>
+                                <?php endforeach; ?>
+                            </select>
+                            <input type="tel" id="phone_number" name="phone_number" class="phone-number-input"
+                                   placeholder="50 123 45 67"
+                                   value="<?= htmlspecialchars($savedNumber) ?>">
+                        </div>
+                        <input type="hidden" name="phone" id="phone_combined" value="<?= htmlspecialchars($storedPhone) ?>">
+                    </td>
                 </tr>
                 <tr>
                     <td><label for="birth_date">Дата народження:</label></td>
@@ -152,5 +203,21 @@ require 'blocks/header.php';
         </p>
     </form>
 </main>
+
+<script>
+(function () {
+    var prefix   = document.getElementById('phone_prefix');
+    var number   = document.getElementById('phone_number');
+    var combined = document.getElementById('phone_combined');
+
+    function update() {
+        combined.value = number.value.trim() ? prefix.value + number.value.trim() : '';
+    }
+
+    prefix.addEventListener('change', update);
+    number.addEventListener('input', update);
+    update();
+})();
+</script>
 
 <?php require 'blocks/footer.php'; ?>

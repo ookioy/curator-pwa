@@ -209,9 +209,12 @@ fieldset {
   margin-bottom: 1.25rem;
 }
 legend {
-  padding: 0 .5rem;
+  padding: .18rem .6rem;
   font-size: .7rem; font-weight: 700;
   text-transform: uppercase; letter-spacing: .07em; color: var(--text-3);
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
 }
 legend strong { color: var(--text-2); font-size: .78rem; }
 
@@ -219,7 +222,11 @@ fieldset fieldset {
   background: var(--surface2); box-shadow: none;
   border-radius: var(--radius); padding: 1rem 1.2rem; margin-top: .8rem;
 }
-fieldset fieldset legend { font-size: .68rem; }
+fieldset fieldset legend {
+  font-size: .68rem;
+  background: var(--surface);
+  border-color: var(--border);
+}
 
 /* ── INPUTS ──────────────────────────────────────────────────── */
 input[type="text"],
@@ -308,7 +315,7 @@ form[style*="display:inline"] button,
 form[style*="display: inline"] button {
   width: 32px !important; height: 32px !important; padding: 0 !important;
   background: var(--surface) !important; 
-  border: none !important;          /* ← змінити тут */
+  border: none !important;
   color: var(--text-2) !important; font-size: .88rem !important;
   justify-content: center;
 }
@@ -328,11 +335,9 @@ table[border="1"] {
   border-radius: var(--radius-lg);
   overflow: hidden;
   box-shadow: var(--shadow);
-  /* Kill ALL browser-default table borders */
   border: none !important;
   outline: none !important;
 }
-/* Kill ALL cell borders first, then add only what we want */
 table[border="1"] *  { border: none !important; }
 
 table[border="1"] th {
