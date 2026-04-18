@@ -46,7 +46,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Вхід - Система куратора</title>
+    <title>Вхід - Інформаційна система куратора</title>
     <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='18' fill='%232e6b57'/><text y='72' x='50' text-anchor='middle' font-size='60' font-family='sans-serif'>🎓</text></svg>">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
@@ -232,7 +232,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <div class="login-logo">
                 <i class="fa-solid fa-graduation-cap"></i>
             </div>
-            <h1>Система куратора</h1>
+            <h1>Інформаційна система куратора</h1>
             <p>Введіть пароль для входу</p>
         </div>
 

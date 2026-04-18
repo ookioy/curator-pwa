@@ -28,7 +28,7 @@ require 'blocks/header.php';
                     <td>
                         <div class="phone-field-wrap">
                             <select name="phone_prefix" id="phone_prefix" class="phone-prefix-select">
-                                <option value="+380" selected>🇺🇦 +380</option>
+                                <option value="+38" selected>🇺🇦 +380</option>
                                 <option value="+48">🇵🇱 +48</option>
                                 <option value="+49">🇩🇪 +49</option>
                                 <option value="+44">🇬🇧 +44</option>
@@ -46,7 +46,7 @@ require 'blocks/header.php';
                             </select>
                             <input type="tel" id="phone_number" name="phone_number" class="phone-number-input" placeholder="50 123 45 67">
                         </div>
-                        <input type="hidden" name="phone" id="phone_combined">
+                        <input type="hidden" name="phone" id="phone_combined" class="phone-combined">
                     </td>
                 </tr>
                 <tr>
@@ -98,9 +98,9 @@ require 'blocks/header.php';
         <br>
 
         <fieldset>
-            <legend><strong>Дані батьків</strong></legend>
+            <legend><strong>Батьки</strong></legend>
             
-            <div>
+            <div style="margin-bottom: 15px;">
                 <h3>Батько</h3>
                 <input type="hidden" name="p_type[]" value="father">
                 <table border="0" cellpadding="5">
@@ -114,7 +114,30 @@ require 'blocks/header.php';
                     </tr>
                     <tr>
                         <td><label>Телефон:</label></td>
-                        <td><input type="tel" name="p_phone[]" size="30"></td>
+                        <td>
+                            <div class="phone-field-wrap">
+                                <select class="phone-prefix-select">
+                                    <option value="+38" selected>🇺🇦 +380</option>
+                                    <option value="+48">🇵🇱 +48</option>
+                                    <option value="+49">🇩🇪 +49</option>
+                                    <option value="+44">🇬🇧 +44</option>
+                                    <option value="+1">🇺🇸 +1</option>
+                                    <option value="+33">🇫🇷 +33</option>
+                                    <option value="+39">🇮🇹 +39</option>
+                                    <option value="+34">🇪🇸 +34</option>
+                                    <option value="+40">🇷🇴 +40</option>
+                                    <option value="+36">🇭🇺 +36</option>
+                                    <option value="+420">🇨🇿 +420</option>
+                                    <option value="+421">🇸🇰 +421</option>
+                                    <option value="+372">🇪🇪 +372</option>
+                                    <option value="+371">🇱🇻 +371</option>
+                                    <option value="+370">🇱🇹 +370</option>
+                                    <option value="+7">kz/ru +7</option>
+                                </select>
+                                <input type="text" class="phone-number-input" size="20">
+                                <input type="hidden" name="p_phone[]" class="phone-combined">
+                            </div>
+                        </td>
                     </tr>
                 </table>
             </div>
@@ -133,12 +156,34 @@ require 'blocks/header.php';
                     </tr>
                     <tr>
                         <td><label>Телефон:</label></td>
-                        <td><input type="tel" name="p_phone[]" size="30"></td>
+                        <td>
+                            <div class="phone-field-wrap">
+                                <select class="phone-prefix-select">
+                                    <option value="+38" selected>🇺🇦 +380</option>
+                                    <option value="+48">🇵🇱 +48</option>
+                                    <option value="+49">🇩🇪 +49</option>
+                                    <option value="+44">🇬🇧 +44</option>
+                                    <option value="+1">🇺🇸 +1</option>
+                                    <option value="+33">🇫🇷 +33</option>
+                                    <option value="+39">🇮🇹 +39</option>
+                                    <option value="+34">🇪🇸 +34</option>
+                                    <option value="+40">🇷🇴 +40</option>
+                                    <option value="+36">🇭🇺 +36</option>
+                                    <option value="+420">🇨🇿 +420</option>
+                                    <option value="+421">🇸🇰 +421</option>
+                                    <option value="+372">🇪🇪 +372</option>
+                                    <option value="+371">🇱🇻 +371</option>
+                                    <option value="+370">🇱🇹 +370</option>
+                                    <option value="+7">kz/ru +7</option>
+                                </select>
+                                <input type="text" class="phone-number-input" size="20">
+                                <input type="hidden" name="p_phone[]" class="phone-combined">
+                            </div>
+                        </td>
                     </tr>
                 </table>
             </div>
         </fieldset>
-
         <br>
         <p>
             <button type="submit"><strong>Зберегти картку студента</strong></button>
@@ -147,19 +192,17 @@ require 'blocks/header.php';
 </main>
 
 <script>
-(function () {
-    var prefix = document.getElementById('phone_prefix');
-    var number = document.getElementById('phone_number');
-    var combined = document.getElementById('phone_combined');
+document.querySelectorAll('.phone-field-wrap').forEach(function(wrap) {
+    var prefix = wrap.querySelector('.phone-prefix-select');
+    var number = wrap.querySelector('.phone-number-input');
+    var combined = wrap.querySelector('.phone-combined');
 
-    function update() {
-        combined.value = number.value.trim() ? prefix.value + number.value.trim() : '';
+    if (prefix && number && combined) {
+        function update() {
+            combined.value = number.value.trim() ? prefix.value + number.value.trim() : '';
+        }
+        prefix.addEventListener('change', update);
+        number.addEventListener('input', update);
+        update();
     }
-
-    prefix.addEventListener('change', update);
-    number.addEventListener('input', update);
-    update();
-})();
-</script>
-
-<?php require 'blocks/footer.php'; ?>
+});

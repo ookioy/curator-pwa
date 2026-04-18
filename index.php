@@ -42,7 +42,7 @@ require 'blocks/header.php';
                     <td>
                         <?= htmlspecialchars($s['phone'] ?? '—') ?>
                         <?php if (!empty($s['phone'])): ?>
-                            <a href="tel:<?= preg_replace('/[^\d+]/', '', $s['phone']) ?>">📞</a>
+                            <a href="tel:<?= preg_replace('/[^\d+]/', '', $s['phone']) ?>"><i class="fa-solid fa-phone"></i></a>
                         <?php endif; ?>
                     </td>
                     <td align="center">

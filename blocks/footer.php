@@ -1,5 +1,5 @@
 <footer>
-    <p><small>&copy; <?= date('Y') ?> Система куратора</small></p>
+    <p><small>&copy; <?= date('Y') ?> Інформаційна система куратора</small></p>
 </footer>
 
 <!-- ── MODAL OVERLAY (HTML розмітка) ────────────────────────── -->
@@ -7,7 +7,7 @@
     <div class="modal-card">
         <div class="modal-icon-wrap">
             <div class="modal-icon warn" id="modal-icon">
-                <i class="fa-solid fa-triangle-exclamation"></i>
+                <i class="fa-solid fa-triangle-exclamation"></i>і
             </div>
         </div>
         <div class="modal-title" id="modal-title">Підтвердження</div>

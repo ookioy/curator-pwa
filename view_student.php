@@ -48,7 +48,7 @@ require 'blocks/header.php';
                 <td>
                     <?= htmlspecialchars($student['phone'] ?? '—') ?>
                     <?php if(!empty($student['phone'])): ?>
-                        <a href="tel:<?= preg_replace('/[^\d+]/', '', $student['phone']) ?>" style="text-decoration: none;">📞</a>
+                        <a href="tel:<?= preg_replace('/[^\d+]/', '', $student['phone']) ?>" style="text-decoration: none;"><i class="fa-solid fa-phone"></i></a>
                     <?php endif; ?>
                 </td>
             </tr>
@@ -103,7 +103,7 @@ require 'blocks/header.php';
                     <td>
                         <?= htmlspecialchars($p['phone'] ?? '—') ?>
                         <?php if(!empty($p['phone'])): ?>
-                            <a href="tel:<?= preg_replace('/[^\d+]/', '', $p['phone']) ?>" style="text-decoration: none;">📞</a>
+                            <a href="tel:<?= preg_replace('/[^\d+]/', '', $p['phone']) ?>" style="text-decoration: none;"><i class="fa-solid fa-phone"></i></a>
                         <?php endif; ?>
                     </td>
                 </tr>
