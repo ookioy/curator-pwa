@@ -136,16 +136,17 @@ require 'blocks/header.php';
                             <td><input type="text" name="parents[<?= $role ?>][work_info]" value="<?= e($p['work_info'] ?? '') ?>" size="50"></td>
                         </tr>
                         <tr>
-                            <td><label for="new_phone">Телефон:</label></td>
+                            <td><label>Телефон:</label></td>
                             <td>
                                 <div class="phone-field-wrap">
-                                    <select name="phone_prefix_new" id="phone_prefix_new" class="phone-prefix-select">
-                                        <?= phonePrefixOptions() ?>
+                                    <?php [$pPfx, $pNum] = phonePrefix($p['phone'] ?? ''); ?>
+                                    <select name="parents[<?= $role ?>][phone_prefix]" class="phone-prefix-select">
+                                        <?= phonePrefixOptions($pPfx) ?>
                                     </select>
-                                    <input type="tel" id="phone_number_new" name="phone_number_new" class="phone-number-input"
-                                        placeholder="50 123 45 67">
+                                    <input type="tel" name="parents[<?= $role ?>][phone_number]" class="phone-number-input"
+                                        placeholder="50 123 45 67" value="<?= e($pNum) ?>">
                                 </div>
-                                <input type="hidden" name="phone" id="phone_combined_new">
+                                <input type="hidden" name="parents[<?= $role ?>][phone]" value="<?= e($p['phone'] ?? '') ?>">
                             </td>
                         </tr>
                     </table>

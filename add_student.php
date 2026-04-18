@@ -85,24 +85,32 @@ require 'blocks/header.php';
         <fieldset>
             <legend><strong>Дані батьків</strong></legend>
             <?php foreach (['father' => 'Батько', 'mother' => 'Мати'] as $type => $label): ?>
-            <div>
-                <h3><?= $label ?></h3>
-                <input type="hidden" name="p_type[]" value="<?= $type ?>">
-                <table border="0" cellpadding="5">
-                    <tr>
-                        <td><label>ПІБ:</label></td>
-                        <td><input type="text" name="p_full_name[]" size="50"></td>
-                    </tr>
-                    <tr>
-                        <td><label>Місце роботи:</label></td>
-                        <td><input type="text" name="p_work_info[]" size="50"></td>
-                    </tr>
-                    <tr>
-                        <td><label>Телефон:</label></td>
-                        <td><input type="tel" name="p_phone[]" size="30"></td>
-                    </tr>
-                </table>
-            </div>
+                <div>
+                    <h3><?= $label ?></h3>
+                    <input type="hidden" name="p_type[]" value="<?= $type ?>">
+                    <table border="0" cellpadding="5">
+                        <tr>
+                            <td><label>ПІБ:</label></td>
+                            <td><input type="text" name="p_full_name[]" size="50"></td>
+                        </tr>
+                        <tr>
+                            <td><label>Місце роботи:</label></td>
+                            <td><input type="text" name="p_work_info[]" size="50"></td>
+                        </tr>
+                        <tr>
+                            <td><label>Телефон:</label></td>
+                            <td>
+                                <div class="phone-field-wrap">
+                                    <select name="p_phone_prefix[]" class="phone-prefix-select">
+                                        <?= phonePrefixOptions('+380') ?>
+                                    </select>
+                                    <input type="tel" name="p_phone_number[]" class="phone-number-input" placeholder="50 123 45 67">
+                                </div>
+                                <input type="hidden" name="p_phone[]" class="p_phone_combined">
+                            </td>
+                        </tr>
+                    </table>
+                </div>
             <?php endforeach; ?>
         </fieldset>
 
