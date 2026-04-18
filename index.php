@@ -1,13 +1,12 @@
 <?php
 require 'logic/db.php';
 require 'logic/auth.php';
+require 'logic/helpers.php';
 
 protectPage($pdo);
 
-$stmt = $pdo->query("SELECT id, full_name, phone FROM students ORDER BY full_name ASC");
-$students = $stmt->fetchAll();
-
-$pageTitle = "Головна - Список групи";
+$students  = $pdo->query('SELECT id, full_name, phone FROM students ORDER BY full_name ASC')->fetchAll();
+$pageTitle = 'Головна - Список групи';
 require 'blocks/header.php';
 ?>
 
@@ -36,13 +35,11 @@ require 'blocks/header.php';
             <tbody>
                 <?php foreach ($students as $s): ?>
                 <tr>
+                    <td><strong><?= e($s['full_name']) ?></strong></td>
                     <td>
-                        <strong><?= htmlspecialchars($s['full_name']) ?></strong>
-                    </td>
-                    <td>
-                        <?= htmlspecialchars($s['phone'] ?? '—') ?>
+                        <?= e($s['phone'] ?? '—') ?>
                         <?php if (!empty($s['phone'])): ?>
-                            <a href="tel:<?= preg_replace('/[^\d+]/', '', $s['phone']) ?>"><i class="fa-solid fa-phone"></i></a>
+                            <a href="tel:<?= preg_replace('/[^\d+]/', '', $s['phone']) ?>">📞</a>
                         <?php endif; ?>
                     </td>
                     <td align="center">

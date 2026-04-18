@@ -1,34 +1,28 @@
 <?php
 require 'logic/db.php';
 require 'logic/auth.php';
+require 'logic/helpers.php';
 
 protectPage($pdo);
 
-$student_id = $_GET['student_id'] ?? null;
-if (!$student_id) {
-    header('Location: index.php');
-    exit;
-}
+$studentId = $_GET['student_id'] ?? null;
+if (!$studentId) { redirect('index.php'); }
 
-$stmt = $pdo->prepare("SELECT full_name FROM students WHERE id = ?");
-$stmt->execute([$student_id]);
-$student = $stmt->fetch();
+$stmtS = $pdo->prepare('SELECT full_name FROM students WHERE id = ?');
+$stmtS->execute([$studentId]);
+$student = $stmtS->fetch();
+if (!$student) { die('Студента не знайдено!'); }
 
-if (!$student) {
-    die("Студента не знайдено!");
-}
+$stmtP = $pdo->prepare('SELECT * FROM parents WHERE student_id = ? ORDER BY type');
+$stmtP->execute([$studentId]);
+$parents = $stmtP->fetchAll();
 
-$stmt_parents = $pdo->prepare("SELECT * FROM parents WHERE student_id = ? ORDER BY type");
-$stmt_parents->execute([$student_id]);
-$parents = $stmt_parents->fetchAll();
-
-$pageTitle = "Редагування батьків: " . htmlspecialchars($student['full_name']);
+$pageTitle = 'Редагування батьків: ' . htmlspecialchars($student['full_name']);
 require 'blocks/header.php';
 ?>
 
 <main>
-    <p><a href="view_student.php?id=<?= $student_id ?>">&larr; Назад до профілю</a></p>
-
+    <p><a href="view_student.php?id=<?= $studentId ?>">&larr; Назад до профілю</a></p>
     <h2>Редагування батьків/опікунів</h2>
 
     <?php if (isset($_GET['updated'])): ?>
@@ -41,81 +35,54 @@ require 'blocks/header.php';
         <?php if (empty($parents)): ?>
             <p><em>Батьків ще не додано.</em></p>
         <?php else: ?>
-            <?php foreach ($parents as $index => $parent): ?>
-                <fieldset>
-                    <legend>Батько/Мати/Опікун #<?= $index + 1 ?></legend>
+            <?php foreach ($parents as $i => $p): ?>
+            <fieldset>
+                <legend>Батько/Мати/Опікун #<?= $i + 1 ?></legend>
 
-                    <form action="logic/update_parent.php" method="POST">
-                        <input type="hidden" name="parent_id" value="<?= $parent['id'] ?>">
-                        <input type="hidden" name="student_id" value="<?= $student_id ?>">
+                <form action="logic/update_parent.php" method="POST">
+                    <input type="hidden" name="parent_id"  value="<?= $p['id'] ?>">
+                    <input type="hidden" name="student_id" value="<?= $studentId ?>">
+                    <table border="0" cellpadding="5" cellspacing="0" width="100%">
+                        <tr>
+                            <td width="25%"><label>ПІБ:</label></td>
+                            <td><input type="text" name="full_name" value="<?= e($p['full_name']) ?>" size="50" required></td>
+                        </tr>
+                        <tr>
+                            <td><label>Тип:</label></td>
+                            <td>
+                                <select name="type">
+                                    <option value="mother" <?= $p['type'] === 'mother' ? 'selected' : '' ?>>Мати</option>
+                                    <option value="father" <?= $p['type'] === 'father' ? 'selected' : '' ?>>Батько</option>
+                                </select>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><label>Місце роботи:</label></td>
+                            <td><input type="text" name="work_info" value="<?= e($p['work_info'] ?? '') ?>" size="50"></td>
+                        </tr>
+                        <tr>
+                            <td><label>Телефон:</label></td>
+                            <td><input type="tel" name="phone" value="<?= e($p['phone'] ?? '') ?>" size="30"></td>
+                        </tr>
+                    </table>
+                    <p><button type="submit">Оновити</button></p>
+                </form>
 
-                        <table border="0" cellpadding="5" cellspacing="0" width="100%">
-                            <tr>
-                                <td width="25%"><label for="full_name_<?= $parent['id'] ?>">ПІБ:</label></td>
-                                <td>
-                                    <input type="text"
-                                           id="full_name_<?= $parent['id'] ?>"
-                                           name="full_name"
-                                           value="<?= htmlspecialchars($parent['full_name']) ?>"
-                                           size="50"
-                                           required>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td><label for="type_<?= $parent['id'] ?>">Тип:</label></td>
-                                <td>
-                                    <select id="type_<?= $parent['id'] ?>" name="type">
-                                        <option value="mother" <?= $parent['type'] === 'mother' ? 'selected' : '' ?>>Мати</option>
-                                        <option value="father" <?= $parent['type'] === 'father' ? 'selected' : '' ?>>Батько</option>
-                                    </select>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td><label for="work_info_<?= $parent['id'] ?>">Місце роботи:</label></td>
-                                <td>
-                                    <input type="text"
-                                           id="work_info_<?= $parent['id'] ?>"
-                                           name="work_info"
-                                           value="<?= htmlspecialchars($parent['work_info'] ?? '') ?>"
-                                           size="50">
-                                </td>
-                            </tr>
-                            <tr>
-                                <td><label for="phone_<?= $parent['id'] ?>">Телефон:</label></td>
-                                <td>
-                                    <input type="tel"
-                                           id="phone_<?= $parent['id'] ?>"
-                                           name="phone"
-                                           value="<?= htmlspecialchars($parent['phone'] ?? '') ?>"
-                                           size="30">
-                                </td>
-                            </tr>
-                        </table>
-
-                        <p>
-                            <button type="submit">Оновити</button>
-                        </p>
-                    </form>
-
-                    <form action="logic/delete_parent.php" method="POST" onsubmit="return confirm('Видалити цього батька/опікуна?');">
-                        <input type="hidden" name="parent_id" value="<?= $parent['id'] ?>">
-                        <input type="hidden" name="student_id" value="<?= $student_id ?>">
-                        <button type="submit">Видалити</button>
-                    </form>
-                </fieldset>
-                <br>
+                <form action="logic/delete_parent.php" method="POST">
+                    <input type="hidden" name="parent_id"  value="<?= $p['id'] ?>">
+                    <input type="hidden" name="student_id" value="<?= $studentId ?>">
+                    <button type="submit">Видалити</button>
+                </form>
+            </fieldset>
+            <br>
             <?php endforeach; ?>
         <?php endif; ?>
     </fieldset>
 
-    <br>
-
     <fieldset>
         <legend><strong>Додати нового батька/опікуна</strong></legend>
-
         <form action="logic/add_parent.php" method="POST">
-            <input type="hidden" name="student_id" value="<?= $student_id ?>">
-
+            <input type="hidden" name="student_id" value="<?= $studentId ?>">
             <table border="0" cellpadding="5" cellspacing="0" width="100%">
                 <tr>
                     <td width="25%"><label for="new_full_name">ПІБ:</label></td>
@@ -139,10 +106,7 @@ require 'blocks/header.php';
                     <td><input type="tel" id="new_phone" name="phone" size="30"></td>
                 </tr>
             </table>
-
-            <p>
-                <button type="submit"><strong>Додати</strong></button>
-            </p>
+            <p><button type="submit"><strong>Додати</strong></button></p>
         </form>
     </fieldset>
 </main>

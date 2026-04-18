@@ -1,6 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,400&family=DM+Mono:wght@400;500&display=swap');
 
-/* ── Variables ─────────────────────────────────────────────── */
 :root {
   --bg:            #f0ede8;
   --surface:       #ffffff;
@@ -42,7 +41,6 @@
   --transition:    150ms ease;
 }
 
-/* ── Reset ──────────────────────────────────────────────────── */
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 html { font-size: 16px; scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
 
@@ -56,7 +54,6 @@ body {
   flex-direction: column;
 }
 
-/* ── Typography ─────────────────────────────────────────────── */
 h1 { font-size: 1.4rem;  font-weight: 600; letter-spacing: -.02em; line-height: 1.25; }
 h2 { font-size: 1.15rem; font-weight: 600; letter-spacing: -.01em; margin-bottom: 1.1rem; }
 h3 { font-size: .95rem;  font-weight: 600; color: var(--text-2); margin-bottom: .5rem; }
@@ -69,7 +66,6 @@ hr { border: none; border-top: 1px solid var(--border); margin: 1rem 0; }
 a { color: var(--accent); text-decoration: none; transition: color var(--transition); }
 a:hover { color: var(--accent-dark); }
 
-/* ── HEADER ─────────────────────────────────────────────────── */
 .site-header {
   background: var(--surface);
   border-bottom: 1px solid var(--border);
@@ -123,7 +119,6 @@ a:hover { color: var(--accent-dark); }
 .nav-link:hover { background: var(--surface2); border-color: var(--border); color: var(--text); }
 .nav-logout:hover { color: var(--warn); border-color: var(--warn-border); background: var(--warn-lt); }
 
-/* Search bar */
 .header-search { background: var(--surface2); border-top: 1px solid var(--border); }
 .header-search form { max-width: 960px; margin: 0 auto; padding: .5rem 1.5rem; }
 
@@ -162,7 +157,6 @@ a:hover { color: var(--accent-dark); }
 }
 .search-wrap button:hover { background: var(--accent-dark) !important; }
 
-/* ── LAYOUT ─────────────────────────────────────────────────── */
 main {
   flex: 1;
   max-width: 960px; width: 100%;
@@ -178,7 +172,6 @@ footer {
 footer hr { display: none; }
 footer p { font-size: .75rem; color: var(--text-3); margin: 0; }
 
-/* ── PAGE TITLE ROW ──────────────────────────────────────────── */
 div[style*="display: flex"],
 div[style*="display:flex"] {
   display: flex !important;
@@ -188,7 +181,6 @@ div[style*="display:flex"] {
   flex-wrap: wrap; gap: .5rem;
 }
 
-/* ── BACK LINK ───────────────────────────────────────────────── */
 p > a[href*=".php"] {
   display: inline-flex; align-items: center; gap: .3rem;
   font-size: .8rem; font-weight: 500; color: var(--text-2);
@@ -199,7 +191,6 @@ p > a[href*=".php"] {
 }
 p > a[href*=".php"]:hover { color: var(--text); border-color: var(--border-strong); }
 
-/* ── FIELDSETS ───────────────────────────────────────────────── */
 fieldset {
   border: 1px solid var(--border);
   border-radius: var(--radius-lg);
@@ -228,7 +219,6 @@ fieldset fieldset legend {
   border-color: var(--border);
 }
 
-/* ── INPUTS ──────────────────────────────────────────────────── */
 input[type="text"],
 input[type="tel"],
 input[type="date"],
@@ -267,7 +257,6 @@ input[type="checkbox"] {
 label { font-size: .855rem; font-weight: 500; color: var(--text-2); }
 label em { color: var(--warn); font-style: normal; font-size: .75rem; }
 
-/* ── BUTTONS ─────────────────────────────────────────────────── */
 button, input[type="submit"] {
   font-family: 'DM Sans', sans-serif;
   font-size: .875rem; font-weight: 500;
@@ -283,7 +272,6 @@ button, input[type="submit"] {
 button:hover { background: #2e2c2a; border-color: #2e2c2a; }
 button:active { transform: scale(.98); }
 
-/* Edit profile button */
 div[style*="display: flex"] a button,
 div[style*="display:flex"] a button {
   background: var(--amber-lt) !important; color: var(--amber) !important;
@@ -293,7 +281,6 @@ div[style*="display:flex"] a button {
 div[style*="display: flex"] a button:hover,
 div[style*="display:flex"] a button:hover { background: #fdebd0 !important; }
 
-/* ── ACTION ICON BUTTONS ─────────────────────────────────────── */
 .action-btn {
   display: inline-flex; align-items: center; justify-content: center;
   width: 32px; height: 32px;
@@ -314,7 +301,7 @@ form[style*="display: inline"] { display: inline !important; }
 form[style*="display:inline"] button,
 form[style*="display: inline"] button {
   width: 32px !important; height: 32px !important; padding: 0 !important;
-  background: var(--surface) !important; 
+  background: var(--surface) !important;
   border: none !important;
   color: var(--text-2) !important; font-size: .88rem !important;
   justify-content: center;
@@ -326,7 +313,6 @@ form[style*="display: inline"] button:hover {
   border-color: var(--warn-border) !important; transform: translateY(-1px);
 }
 
-/* ── DATA TABLES — NO BLACK BORDERS ─────────────────────────── */
 table[border="1"] {
   width: 100%;
   border-collapse: collapse;
@@ -364,7 +350,6 @@ table[border="1"] td > p { margin: 0; }
 table[border="1"] a { font-weight: 500; color: var(--text); }
 table[border="1"] a:hover { color: var(--accent); }
 
-/* ── FORM TABLES ─────────────────────────────────────────────── */
 table[border="0"] { width: 100%; border-collapse: collapse; }
 table[border="0"] td { padding: .38rem .2rem; vertical-align: middle; }
 table[border="0"] td:first-child {
@@ -372,7 +357,6 @@ table[border="0"] td:first-child {
   color: var(--text-2); white-space: nowrap; padding-right: 1rem;
 }
 
-/* ── ALERTS ──────────────────────────────────────────────────── */
 p[style*="color: red"],
 p[style*="color:red"],
 p[style*="background: #ffeaea"] {
@@ -393,39 +377,20 @@ p[style*="background: #bfd0b9"] {
   margin-bottom: 1rem; box-shadow: none !important;
 }
 
-/* ── PHONE LINK ──────────────────────────────────────────────── */
-a[href^="tel"] { 
-  font-size: 1.0rem; /* Збільшуємо розмір іконки */
-  margin-left: 0.5rem; 
-  color: #28a745 !important; /* Задаємо яскравий зелений колір */
-  text-decoration: none;
-  opacity: 0.9; 
-  display: inline-block;
-  transition: transform 0.2s ease, opacity 0.2s ease, color 0.2s ease;
-}
+a[href^="tel"] { font-size: .82rem; margin-left: .2rem; color: var(--accent); opacity: .65; }
+a[href^="tel"]:hover { opacity: 1; }
 
-a[href^="tel"]:hover { 
-  opacity: 1; 
-  color: #1e7e34 !important; /* Трохи темніший зелений при наведенні */
-  transform: scale(1.15); /* Легке збільшення при наведенні для інтерактивності */
-}
-/* ── FIELDSET LIST ───────────────────────────────────────────── */
 fieldset ul { padding-left: 1.25rem; margin-top: .35rem; }
 fieldset ul li { font-size: .875rem; color: var(--text-2); margin-bottom: .3rem; }
 
-/* ── CHECKBOX LABEL ──────────────────────────────────────────── */
 td label, fieldset > label {
   display: inline-flex; align-items: center; gap: .42rem;
   font-weight: 400; color: var(--text); cursor: pointer;
 }
 
-/* ── SPACERS ─────────────────────────────────────────────────── */
 main > br { display: none; }
 fieldset + br { display: none; }
 
-/* ============================================================
-   RESPONSIVE
-   ============================================================ */
 @media (max-width: 680px) {
   .header-inner { height: auto; padding: .6rem 1rem; flex-wrap: wrap; gap: .4rem; }
   .nav-link span { display: none; }
@@ -460,36 +425,4 @@ fieldset + br { display: none; }
   .brand-text { display: none; }
   h2 { font-size: 1rem; }
   fieldset { padding: .85rem .9rem; }
-}
-
-/* ── PHONE INPUT GROUP ───────────────────────────────────────── */
-.phone-field-wrap {
-  display: flex;
-  gap: 0.5rem; /* Відступ між селектом та інпутом */
-  align-items: center;
-  width: 100%;
-}
-
-.phone-prefix-select {
-  flex: 0 0 115px; 
-  width: 115px !important;
-  background-color: var(--surface2); 
-  color: var(--text);
-  font-weight: 500;
-  cursor: pointer;
-  white-space: nowrap;
-}
-
-.phone-number-input {
-  flex: 1; 
-  width: 100%;
-}
-
-@media (max-width: 400px) {
-  .phone-prefix-select {
-    flex: 0 0 100px;
-    width: 100px !important;
-    padding-left: 0.4rem;
-    padding-right: 1.5rem;
-  }
 }
