@@ -1,13 +1,16 @@
 <script>
 (function () {
-    var prefix   = document.getElementById('phone_prefix');
-    var number   = document.getElementById('phone_number');
-    var combined = document.getElementById('phone_combined');
-    function update() {
-        combined.value = number.value.trim() ? prefix.value + number.value.trim() : '';
-    }
-    prefix.addEventListener('change', update);
-    number.addEventListener('input',  update);
-    update();
+    document.querySelectorAll('.phone-field-wrap').forEach(function (wrap) {
+        var prefix   = wrap.querySelector('.phone-prefix-select');
+        var number   = wrap.querySelector('.phone-number-input');
+        var combined = wrap.parentElement.querySelector('input[type="hidden"]');
+        if (!prefix || !number || !combined) return;
+        function update() {
+            combined.value = number.value.trim() ? prefix.value + number.value.trim() : '';
+        }
+        prefix.addEventListener('change', update);
+        number.addEventListener('input',  update);
+        update();
+    });
 }());
 </script>

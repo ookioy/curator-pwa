@@ -1,5 +1,5 @@
 <footer>
-    <p><small>&copy; <?= date('Y') ?> Система куратора</small></p>
+    <p><small>&copy; <?= date('Y') ?> Інформаційна система куратора</small></p>
 </footer>
 
 <div class="modal-overlay" id="modal-overlay">
@@ -59,6 +59,7 @@
     font-family: 'DM Sans', sans-serif; font-size: .875rem; font-weight: 500;
     padding: .52rem 1.4rem; border-radius: 7px; border: 1px solid transparent;
     cursor: pointer; transition: all .15s ease; flex: 1; text-align: center;
+    display: flex; align-items: center; justify-content: center;
 }
 .modal-btn-cancel  { background: #f7f5f2; color: #5a5750; border-color: #e2ddd7; }
 .modal-btn-cancel:hover { background: #ede9e3; border-color: #c4bfb7; color: #181715; }

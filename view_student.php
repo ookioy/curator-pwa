@@ -66,7 +66,7 @@ require 'blocks/header.php';
                 <td>
                     <?= e($student['phone'] ?? '—') ?>
                     <?php if (!empty($student['phone'])): ?>
-                        <a href="tel:<?= preg_replace('/[^\d+]/', '', $student['phone']) ?>">📞</a>
+                        <a href="tel:<?= preg_replace('/[^\d+]/', '', $student['phone']) ?>"><i class="fa-solid fa-phone"></i></a>
                     <?php endif; ?>
                 </td>
             </tr>
@@ -103,7 +103,7 @@ require 'blocks/header.php';
                         <td>
                             <?= e($p['phone'] ?? '—') ?>
                             <?php if (!empty($p['phone'])): ?>
-                                <a href="tel:<?= preg_replace('/[^\d+]/', '', $p['phone']) ?>">📞</a>
+                                <a href="tel:<?= preg_replace('/[^\d+]/', '', $p['phone']) ?>"><i class="fa-solid fa-phone"></i></a>
                             <?php endif; ?>
                         </td>
                     </tr>

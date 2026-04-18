@@ -6,18 +6,24 @@ require 'logic/helpers.php';
 protectPage($pdo);
 
 $id = $_GET['id'] ?? null;
-if (!$id) { redirect('index.php'); }
+if (!$id) {
+    redirect('index.php');
+}
 
 $student = $pdo->prepare('SELECT * FROM students WHERE id = ?');
 $student->execute([$id]);
 $student = $student->fetch();
-if (!$student) { die('Студента не знайдено!'); }
+if (!$student) {
+    die('Студента не знайдено!');
+}
 
 $parentsList = $pdo->prepare('SELECT * FROM parents WHERE student_id = ?');
 $parentsList->execute([$id]);
 
-$parents = ['father' => ['id' => '', 'full_name' => '', 'work_info' => '', 'phone' => ''],
-            'mother' => ['id' => '', 'full_name' => '', 'work_info' => '', 'phone' => '']];
+$parents = [
+    'father' => ['id' => '', 'full_name' => '', 'work_info' => '', 'phone' => ''],
+    'mother' => ['id' => '', 'full_name' => '', 'work_info' => '', 'phone' => '']
+];
 foreach ($parentsList->fetchAll() as $p) {
     if (isset($parents[$p['type']])) {
         $parents[$p['type']] = $p;
@@ -58,7 +64,7 @@ require 'blocks/header.php';
                                 <?= phonePrefixOptions($savedPrefix) ?>
                             </select>
                             <input type="tel" id="phone_number" name="phone_number" class="phone-number-input"
-                                   placeholder="50 123 45 67" value="<?= e($savedNumber) ?>">
+                                placeholder="50 123 45 67" value="<?= e($savedNumber) ?>">
                         </div>
                         <input type="hidden" name="phone" id="phone_combined" value="<?= e($student['phone'] ?? '') ?>">
                     </td>
@@ -116,25 +122,34 @@ require 'blocks/header.php';
             <legend><strong>Дані батьків</strong></legend>
             <?php foreach (['father' => 'Батько', 'mother' => 'Мати'] as $role => $label):
                 $p = $parents[$role]; ?>
-            <div>
-                <h3><?= $label ?></h3>
-                <input type="hidden" name="parents[<?= $role ?>][id]"   value="<?= e($p['id']) ?>">
-                <input type="hidden" name="parents[<?= $role ?>][type]" value="<?= $role ?>">
-                <table border="0" cellpadding="5">
-                    <tr>
-                        <td><label>ПІБ:</label></td>
-                        <td><input type="text" name="parents[<?= $role ?>][full_name]" value="<?= e($p['full_name']) ?>" size="50"></td>
-                    </tr>
-                    <tr>
-                        <td><label>Місце роботи:</label></td>
-                        <td><input type="text" name="parents[<?= $role ?>][work_info]" value="<?= e($p['work_info'] ?? '') ?>" size="50"></td>
-                    </tr>
-                    <tr>
-                        <td><label>Телефон:</label></td>
-                        <td><input type="tel" name="parents[<?= $role ?>][phone]" value="<?= e($p['phone'] ?? '') ?>" size="30"></td>
-                    </tr>
-                </table>
-            </div>
+                <div>
+                    <h3><?= $label ?></h3>
+                    <input type="hidden" name="parents[<?= $role ?>][id]" value="<?= e($p['id']) ?>">
+                    <input type="hidden" name="parents[<?= $role ?>][type]" value="<?= $role ?>">
+                    <table border="0" cellpadding="5">
+                        <tr>
+                            <td><label>ПІБ:</label></td>
+                            <td><input type="text" name="parents[<?= $role ?>][full_name]" value="<?= e($p['full_name']) ?>" size="50"></td>
+                        </tr>
+                        <tr>
+                            <td><label>Місце роботи:</label></td>
+                            <td><input type="text" name="parents[<?= $role ?>][work_info]" value="<?= e($p['work_info'] ?? '') ?>" size="50"></td>
+                        </tr>
+                        <tr>
+                            <td><label for="new_phone">Телефон:</label></td>
+                            <td>
+                                <div class="phone-field-wrap">
+                                    <select name="phone_prefix_new" id="phone_prefix_new" class="phone-prefix-select">
+                                        <?= phonePrefixOptions() ?>
+                                    </select>
+                                    <input type="tel" id="phone_number_new" name="phone_number_new" class="phone-number-input"
+                                        placeholder="50 123 45 67">
+                                </div>
+                                <input type="hidden" name="phone" id="phone_combined_new">
+                            </td>
+                        </tr>
+                    </table>
+                </div>
             <?php endforeach; ?>
         </fieldset>
 

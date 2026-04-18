@@ -6,12 +6,16 @@ require 'logic/helpers.php';
 protectPage($pdo);
 
 $studentId = $_GET['student_id'] ?? null;
-if (!$studentId) { redirect('index.php'); }
+if (!$studentId) {
+    redirect('index.php');
+}
 
 $stmtS = $pdo->prepare('SELECT full_name FROM students WHERE id = ?');
 $stmtS->execute([$studentId]);
 $student = $stmtS->fetch();
-if (!$student) { die('Студента не знайдено!'); }
+if (!$student) {
+    die('Студента не знайдено!');
+}
 
 $stmtP = $pdo->prepare('SELECT * FROM parents WHERE student_id = ? ORDER BY type');
 $stmtP->execute([$studentId]);
@@ -36,45 +40,55 @@ require 'blocks/header.php';
             <p><em>Батьків ще не додано.</em></p>
         <?php else: ?>
             <?php foreach ($parents as $i => $p): ?>
-            <fieldset>
-                <legend>Батько/Мати/Опікун #<?= $i + 1 ?></legend>
+                <fieldset>
+                    <legend>Батько/Мати/Опікун #<?= $i + 1 ?></legend>
 
-                <form action="logic/update_parent.php" method="POST">
-                    <input type="hidden" name="parent_id"  value="<?= $p['id'] ?>">
-                    <input type="hidden" name="student_id" value="<?= $studentId ?>">
-                    <table border="0" cellpadding="5" cellspacing="0" width="100%">
-                        <tr>
-                            <td width="25%"><label>ПІБ:</label></td>
-                            <td><input type="text" name="full_name" value="<?= e($p['full_name']) ?>" size="50" required></td>
-                        </tr>
-                        <tr>
-                            <td><label>Тип:</label></td>
-                            <td>
-                                <select name="type">
-                                    <option value="mother" <?= $p['type'] === 'mother' ? 'selected' : '' ?>>Мати</option>
-                                    <option value="father" <?= $p['type'] === 'father' ? 'selected' : '' ?>>Батько</option>
-                                </select>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td><label>Місце роботи:</label></td>
-                            <td><input type="text" name="work_info" value="<?= e($p['work_info'] ?? '') ?>" size="50"></td>
-                        </tr>
-                        <tr>
-                            <td><label>Телефон:</label></td>
-                            <td><input type="tel" name="phone" value="<?= e($p['phone'] ?? '') ?>" size="30"></td>
-                        </tr>
-                    </table>
-                    <p><button type="submit">Оновити</button></p>
-                </form>
+                    <form action="logic/update_parent.php" method="POST">
+                        <input type="hidden" name="parent_id" value="<?= $p['id'] ?>">
+                        <input type="hidden" name="student_id" value="<?= $studentId ?>">
+                        <table border="0" cellpadding="5" cellspacing="0" width="100%">
+                            <tr>
+                                <td width="25%"><label>ПІБ:</label></td>
+                                <td><input type="text" name="full_name" value="<?= e($p['full_name']) ?>" size="50" required></td>
+                            </tr>
+                            <tr>
+                                <td><label>Тип:</label></td>
+                                <td>
+                                    <select name="type">
+                                        <option value="mother" <?= $p['type'] === 'mother' ? 'selected' : '' ?>>Мати</option>
+                                        <option value="father" <?= $p['type'] === 'father' ? 'selected' : '' ?>>Батько</option>
+                                    </select>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><label>Місце роботи:</label></td>
+                                <td><input type="text" name="work_info" value="<?= e($p['work_info'] ?? '') ?>" size="50"></td>
+                            </tr>
+                            <tr>
+                                <td><label>Телефон:</label></td>
+                                <td>
+                                    <div class="phone-field-wrap">
+                                        <?php [$pfx, $num] = phonePrefix($p['phone'] ?? ''); ?>
+                                        <select name="phone_prefix_p[<?= $p['id'] ?>]" class="phone-prefix-select">
+                                            <?= phonePrefixOptions($pfx) ?>
+                                        </select>
+                                        <input type="tel" name="phone_number_p[<?= $p['id'] ?>]" class="phone-number-input"
+                                            placeholder="50 123 45 67" value="<?= e($num) ?>">
+                                    </div>
+                                    <input type="hidden" name="phone" id="phone_combined_p_<?= $p['id'] ?>" value="<?= e($p['phone'] ?? '') ?>">
+                                </td>
+                            </tr>
+                        </table>
+                        <p><button type="submit">Оновити</button></p>
+                    </form>
 
-                <form action="logic/delete_parent.php" method="POST">
-                    <input type="hidden" name="parent_id"  value="<?= $p['id'] ?>">
-                    <input type="hidden" name="student_id" value="<?= $studentId ?>">
-                    <button type="submit">Видалити</button>
-                </form>
-            </fieldset>
-            <br>
+                    <form action="logic/delete_parent.php" method="POST">
+                        <input type="hidden" name="parent_id" value="<?= $p['id'] ?>">
+                        <input type="hidden" name="student_id" value="<?= $studentId ?>">
+                        <button type="submit">Видалити</button>
+                    </form>
+                </fieldset>
+                <br>
             <?php endforeach; ?>
         <?php endif; ?>
     </fieldset>
@@ -102,13 +116,23 @@ require 'blocks/header.php';
                     <td><input type="text" id="new_work_info" name="work_info" size="50"></td>
                 </tr>
                 <tr>
-                    <td><label for="new_phone">Телефон:</label></td>
-                    <td><input type="tel" id="new_phone" name="phone" size="30"></td>
+                    <td><label>Телефон:</label></td>
+                    <td>
+                        <div class="phone-field-wrap">
+                            <?php [$pfx, $num] = phonePrefix($p['phone'] ?? ''); ?>
+                            <select name="phone_prefix_p[<?= $p['id'] ?>]" class="phone-prefix-select">
+                                <?= phonePrefixOptions($pfx) ?>
+                            </select>
+                            <input type="tel" name="phone_number_p[<?= $p['id'] ?>]" class="phone-number-input"
+                                placeholder="50 123 45 67" value="<?= e($num) ?>">
+                        </div>
+                        <input type="hidden" name="phone" id="phone_combined_p_<?= $p['id'] ?>" value="<?= e($p['phone'] ?? '') ?>">
+                    </td>
                 </tr>
             </table>
             <p><button type="submit"><strong>Додати</strong></button></p>
         </form>
     </fieldset>
 </main>
-
+<?php require 'blocks/phone_script_parents.php'; ?>
 <?php require 'blocks/footer.php'; ?>
