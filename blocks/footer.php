@@ -71,39 +71,50 @@
 
 <script>
 (function () {
-    const overlay  = document.getElementById('modal-overlay');
-    const titleEl  = document.getElementById('modal-title');
-    const msgEl    = document.getElementById('modal-message');
-    const iconEl   = document.getElementById('modal-icon');
-    const btnOk    = document.getElementById('modal-confirm');
+    const overlay   = document.getElementById('modal-overlay');
+    const titleEl   = document.getElementById('modal-title');
+    const msgEl     = document.getElementById('modal-message');
+    const iconEl    = document.getElementById('modal-icon');
+    const btnOk     = document.getElementById('modal-confirm');
     const btnCancel = document.getElementById('modal-cancel');
 
     const ICONS = { warn: 'fa-triangle-exclamation', danger: 'fa-trash', success: 'fa-floppy-disk' };
     let resolve = null;
-    let isOpen  = false;
+
+    // Скидаємо стан при поверненні зі сторінки через bfcache
+    window.addEventListener('pageshow', () => {
+        overlay.classList.remove('active');
+        resolve = null;
+    });
 
     window.showModal = ({ title = 'Підтвердження', message = '', type = 'warn',
                           confirmText = 'Підтвердити', cancelText = 'Скасувати' }) => {
-        titleEl.textContent = title;
-        msgEl.textContent   = message;
-        btnOk.textContent   = confirmText;
+        // Якщо вже відкрита — закриваємо попередню
+        if (resolve) { resolve(false); resolve = null; }
+
+        titleEl.textContent   = title;
+        msgEl.textContent     = message;
+        btnOk.textContent     = confirmText;
         btnCancel.textContent = cancelText;
-        iconEl.className    = 'modal-icon ' + type;
-        iconEl.innerHTML    = `<i class="fa-solid ${ICONS[type] || ICONS.warn}"></i>`;
-        btnOk.className     = 'modal-btn modal-btn-confirm' + (type === 'success' ? ' is-save' : '');
+        iconEl.className      = 'modal-icon ' + type;
+        iconEl.innerHTML      = `<i class="fa-solid ${ICONS[type] || ICONS.warn}"></i>`;
+        btnOk.className       = 'modal-btn modal-btn-confirm' + (type === 'success' ? ' is-save' : '');
         overlay.classList.add('active');
         btnCancel.focus();
         return new Promise(res => { resolve = res; });
     };
 
     function close(result) {
+        if (!resolve) return; // захист від подвійного виклику
         overlay.classList.remove('active');
-        if (resolve) { resolve(result); resolve = null; }
+        const r = resolve;
+        resolve = null;
+        r(result);
     }
 
-    btnOk.addEventListener('click',    () => close(true));
-    btnCancel.addEventListener('click', () => close(false));
-    overlay.addEventListener('click',   e => e.target === overlay && close(false));
+    btnOk.addEventListener('click',     () => close(true));
+    btnCancel.addEventListener('click',  () => close(false));
+    overlay.addEventListener('click',    e => e.target === overlay && close(false));
     document.addEventListener('keydown', e => {
         if (!overlay.classList.contains('active')) return;
         if (e.key === 'Escape') close(false);
@@ -114,7 +125,7 @@
 
     document.addEventListener('submit', async function (e) {
         const form = e.target;
-        if (confirmed.has(form) || isOpen) return;
+        if (confirmed.has(form)) return; // вже підтверджена — пропускаємо
 
         const isDelete = form.action.includes('delete_student') || form.action.includes('delete_parent');
         const isSave   = form.action.includes('update_student') || form.action.includes('update_parent') || form.action.includes('insert_student');
@@ -122,7 +133,6 @@
 
         e.preventDefault();
         e.stopImmediatePropagation();
-        isOpen = true;
 
         let ok;
         if (isDelete) {
@@ -142,7 +152,6 @@
             });
         }
 
-        isOpen = false;
         if (ok) { confirmed.add(form); form.submit(); }
     });
 }());
