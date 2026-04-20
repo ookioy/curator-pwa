@@ -1,4 +1,5 @@
 <?php
+require_once 'logic/helpers.php'; 
 $pageTitle = 'Немає з\'єднання';
 require 'blocks/header.php';
 ?>

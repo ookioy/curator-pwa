@@ -1,7 +1,7 @@
 const CACHE = 'curator-v1';
 const SHELL = [
-  '/style.css',
-  '/offline.php',
+  'style.css',     
+  'offline.php',   
   'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css',
 ];
 
@@ -28,7 +28,7 @@ self.addEventListener('fetch', e => {
   if (request.url.includes('.php') || request.url.endsWith('/')) {
     e.respondWith(
       fetch(request)
-        .catch(() => caches.match('/offline.php'))
+        .catch(() => caches.match('offline.php'))
     );
     return;
   }

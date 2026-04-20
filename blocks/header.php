@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="uk">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,13 +9,15 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="style.css">
     <meta name="theme-color" content="#2e6b57">
+    <meta name="mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="default">
     <meta name="apple-mobile-web-app-title" content="Куратор">
-    <link rel="manifest" href="/manifest.json">
-    <link rel="apple-touch-icon" href="/icons/icon-192.png">
+    <link rel="manifest" href="manifest.json">
+    <link rel="apple-touch-icon" href="icons/icon-192.png">
     <script src="blocks/modal.js" defer></script>
 </head>
+
 <body>
     <header class="site-header">
         <div class="header-inner">
@@ -42,8 +45,8 @@
                 <div class="search-wrap">
                     <i class="fa-solid fa-magnifying-glass search-icon" aria-hidden="true"></i>
                     <input type="text" id="search-input" name="full-name"
-                           placeholder="Пошук студента за ПІБ…"
-                           autocomplete="off" aria-label="Пошук студента">
+                        placeholder="Пошук студента за ПІБ…"
+                        autocomplete="off" aria-label="Пошук студента">
                     <button type="submit">Знайти</button>
                 </div>
             </form>
