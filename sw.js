@@ -24,11 +24,21 @@ self.addEventListener('activate', e => {
 self.addEventListener('fetch', e => {
   const { request } = e;
 
-  // PHP-сторінки: network-first, при помилці — офлайн
+  // Обробляємо всі PHP-сторінки (список, пошук, перегляд студента)
   if (request.url.includes('.php') || request.url.endsWith('/')) {
     e.respondWith(
-      fetch(request)
-        .catch(() => caches.match('offline.php'))
+      fetch(request).then(response => {
+        // Якщо інтернет є: оновлюємо кеш свіжою копією
+        return caches.open(CACHE).then(cache => {
+          cache.put(request, response.clone());
+          return response;
+        });
+      }).catch(() => {
+        // Якщо інтернету немає: шукаємо саме цю сторінку (з тими ж параметрами ID) у кеші
+        return caches.match(request).then(cachedResponse => {
+          return cachedResponse || caches.match('offline.php');
+        });
+      })
     );
     return;
   }
