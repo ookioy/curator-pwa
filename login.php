@@ -151,6 +151,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         .login-footer { text-align: center; margin-top: 1.75rem; font-size: .75rem; color: var(--text-3); }
     </style>
+    <meta name="theme-color" content="#2e6b57">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <meta name="apple-mobile-web-app-title" content="Куратор">
+    <link rel="manifest" href="/manifest.json">
+    <link rel="apple-touch-icon" href="/icons/icon-192.png">
 </head>
 <body>
 
@@ -199,6 +205,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 </div>
 
 <div class="login-footer">&copy; <?= date('Y') ?> Інформаційна система куратора</div>
+
+<script>
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('/sw.js').catch(console.error);
+  });
+}
+</script>
 
 </body>
 </html>
