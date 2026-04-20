@@ -24,17 +24,14 @@ self.addEventListener('activate', e => {
 self.addEventListener('fetch', e => {
   const { request } = e;
 
-  // Обробляємо всі PHP-сторінки (список, пошук, перегляд студента)
   if (request.url.includes('.php') || request.url.endsWith('/')) {
     e.respondWith(
       fetch(request).then(response => {
-        // Якщо інтернет є: оновлюємо кеш свіжою копією
         return caches.open(CACHE).then(cache => {
           cache.put(request, response.clone());
           return response;
         });
       }).catch(() => {
-        // Якщо інтернету немає: шукаємо саме цю сторінку (з тими ж параметрами ID) у кеші
         return caches.match(request).then(cachedResponse => {
           return cachedResponse || caches.match('offline.php');
         });
@@ -43,7 +40,6 @@ self.addEventListener('fetch', e => {
     return;
   }
 
-  // Статичні ресурси: cache-first
   e.respondWith(
     caches.match(request).then(cached => {
       if (cached) return cached;

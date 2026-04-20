@@ -117,6 +117,7 @@ require 'blocks/header.php';
         <br>
         <p>
             <button type="submit"><strong>Зберегти картку студента</strong></button>
+            <button type="button" onclick="window.location.href='index.php'"> Назад до списку</button>
         </p>
     </form>
 </main>

@@ -1,7 +1,6 @@
 (function () {
     'use strict';
 
-    /* ── 1. Стилі (інжектуються один раз) ─────────────────────────── */
     const CSS = `
 .modal-overlay {
     position: fixed; inset: 0; z-index: 9999;
@@ -62,7 +61,6 @@
         document.head.appendChild(style);
     }
 
-    /* ── 2. DOM (будується один раз, при першому showModal()) ──────── */
     let overlay, titleEl, msgEl, iconEl, btnOk, btnCancel;
     let resolve = null;
 
@@ -112,7 +110,6 @@
         overlay.addEventListener('click',    e => e.target === overlay && close(false));
     }
 
-    /* ── 3. Логіка ─────────────────────────────────────────────────── */
     function close(result) {
         if (!resolve) return;
         overlay.classList.remove('active');
@@ -133,7 +130,6 @@
         if (e.key === 'Enter')  { e.preventDefault(); close(true); }
     });
 
-    /* ── 4. Публічний API ──────────────────────────────────────────── */
     window.showModal = function ({
         title       = 'Підтвердження',
         message     = '',
@@ -159,7 +155,6 @@
         return new Promise(res => { resolve = res; });
     };
 
-    /* ── 5. Перехоплення форм (submit-делегування) ─────────────────── */
     const confirmed = new WeakSet();
 
     document.addEventListener('submit', async function (e) {

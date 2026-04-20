@@ -6,12 +6,16 @@ require 'logic/helpers.php';
 protectPage($pdo);
 
 $id = $_GET['id'] ?? null;
-if (!$id) { redirect('index.php'); }
+if (!$id) {
+    redirect('index.php');
+}
 
 $stmt = $pdo->prepare('SELECT * FROM students WHERE id = ?');
 $stmt->execute([$id]);
 $student = $stmt->fetch();
-if (!$student) { die('Студента не знайдено!'); }
+if (!$student) {
+    die('Студента не знайдено!');
+}
 
 $stmtP = $pdo->prepare('SELECT * FROM parents WHERE student_id = ?');
 $stmtP->execute([$id]);
@@ -56,10 +60,10 @@ require 'blocks/header.php';
                 'Хобі/Інтереси'        => $student['activities']           ?? '—',
             ];
             foreach ($fields as $label => $value): ?>
-            <tr>
-                <td width="30%"><strong><?= e($label) ?>:</strong></td>
-                <td><?= nl2br(e($value)) ?></td>
-            </tr>
+                <tr>
+                    <td width="30%"><strong><?= e($label) ?>:</strong></td>
+                    <td><?= nl2br(e($value)) ?></td>
+                </tr>
             <?php endforeach; ?>
             <tr>
                 <td><strong>Телефон:</strong></td>
@@ -96,22 +100,23 @@ require 'blocks/header.php';
                     $roles = ['father' => 'Батько', 'mother' => 'Мати'];
                     foreach ($parents as $p):
                     ?>
-                    <tr>
-                        <td><?= e($roles[$p['type']] ?? 'Опікун') ?></td>
-                        <td><?= e($p['full_name']) ?></td>
-                        <td><?= e($p['work_info'] ?? '—') ?></td>
-                        <td>
-                            <?= e($p['phone'] ?? '—') ?>
-                            <?php if (!empty($p['phone'])): ?>
-                                <a href="tel:<?= preg_replace('/[^\d+]/', '', $p['phone']) ?>"><i class="fa-solid fa-phone"></i></a>
-                            <?php endif; ?>
-                        </td>
-                    </tr>
+                        <tr>
+                            <td><?= e($roles[$p['type']] ?? 'Опікун') ?></td>
+                            <td><?= e($p['full_name']) ?></td>
+                            <td><?= e($p['work_info'] ?? '—') ?></td>
+                            <td>
+                                <?= e($p['phone'] ?? '—') ?>
+                                <?php if (!empty($p['phone'])): ?>
+                                    <a href="tel:<?= preg_replace('/[^\d+]/', '', $p['phone']) ?>"><i class="fa-solid fa-phone"></i></a>
+                                <?php endif; ?>
+                            </td>
+                        </tr>
                     <?php endforeach; ?>
                 </tbody>
             </table>
         <?php endif; ?>
     </fieldset>
+    <button type="button" onclick="window.location.href='index.php'"> Назад до списку</button>
 </main>
 
 <?php require 'blocks/footer.php'; ?>
