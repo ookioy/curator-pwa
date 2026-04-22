@@ -37,7 +37,7 @@ require 'blocks/header.php';
 ?>
 
 <main>
-    <p><a href="index.php">&larr; Назад до списку</a></p>
+    <p> <a href="index.php">&larr; Назад до списку</a></p>
     <h2>Редагування картки студента</h2>
 
     <?php if (isset($_GET['updated'])): ?>
@@ -155,10 +155,10 @@ require 'blocks/header.php';
         </fieldset>
 
         <br>
-        <p>
+        <div class="form-actions">
             <button type="submit"><strong>Зберегти зміни</strong></button>
-            <button type="button" onclick="window.location.href='index.php'"> Назад до списку</button>
-        </p>
+            <button type="button" onclick="window.location.href='index.php'">Назад до списку</button>
+        </div>
     </form>
 </main>
 

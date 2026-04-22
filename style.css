@@ -416,6 +416,7 @@ label em {
   font-size: 0.75rem;
 }
 
+/* ── All buttons: accent green ── */
 button,
 input[type="submit"] {
   font-family: "DM Sans", sans-serif;
@@ -423,9 +424,9 @@ input[type="submit"] {
   font-weight: 500;
   padding: 0.5rem 1.2rem;
   border-radius: var(--radius-sm);
-  background: var(--text);
+  background: var(--accent);
   color: #fff;
-  border: 1px solid var(--text);
+  border: 1px solid var(--accent);
   cursor: pointer;
   transition:
     background var(--transition),
@@ -437,25 +438,34 @@ input[type="submit"] {
   gap: 0.4rem;
 }
 button:hover {
-  background: #2e2c2a;
-  border-color: #2e2c2a;
+  background: var(--accent-dark);
+  border-color: var(--accent-dark);
 }
 button:active {
   transform: scale(0.98);
 }
 
+.form-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+  align-items: center;
+  margin-top: 0.5rem;
+}
+
 div[style*="display: flex"] a button,
 div[style*="display:flex"] a button {
-  background: var(--amber-lt) !important;
-  color: var(--amber) !important;
-  border: 1px solid var(--amber-border) !important;
+  background: var(--accent) !important;
+  color: #fff !important;
+  border: 1px solid var(--accent) !important;
   padding: 0.4rem 0.9rem !important;
   font-size: 0.82rem !important;
   width: auto !important;
 }
 div[style*="display: flex"] a button:hover,
 div[style*="display:flex"] a button:hover {
-  background: #fdebd0 !important;
+  background: var(--accent-dark) !important;
+  border-color: var(--accent-dark) !important;
 }
 
 .action-btn {
@@ -701,10 +711,17 @@ fieldset + br {
     font-size: 0.78rem;
   }
 
+  /* ── Mobile: buttons don't overlap ── */
   button {
     width: 100%;
     justify-content: center;
   }
+  main > form > p button,
+  main > p button {
+    width: auto;
+    flex: 1 1 auto;
+  }
+
   .action-btn,
   .search-wrap button,
   form[style*="display:inline"] button,

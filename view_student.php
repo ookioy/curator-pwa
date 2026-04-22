@@ -26,10 +26,13 @@ require 'blocks/header.php';
 ?>
 
 <main>
-    <div style="display: flex; justify-content: space-between; align-items: center;">
-        <p><a href="index.php">&larr; Назад до списку</a></p>
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+
+        <a href="index.php">&larr; Назад до списку</a>
+
+
         <a href="edit_student.php?id=<?= $student['id'] ?>">
-            <button style="background: #FFC107; border: none; padding: 10px 20px; cursor: pointer; border-radius: 5px;">
+            <button type="button">
                 <i class="fa-solid fa-pen"></i> Редагувати профіль
             </button>
         </a>
@@ -116,7 +119,10 @@ require 'blocks/header.php';
             </table>
         <?php endif; ?>
     </fieldset>
-    <button type="button" onclick="window.location.href='index.php'"> Назад до списку</button>
+
+    <div class="form-actions">
+        <button type="button" onclick="window.location.href='index.php'">Назад до списку</button>
+    </div>
 </main>
 
 <?php require 'blocks/footer.php'; ?>
