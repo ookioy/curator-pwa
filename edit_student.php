@@ -37,12 +37,13 @@ require 'blocks/header.php';
 ?>
 
 <main>
-    <p> <a href="index.php">&larr; Назад до списку</a></p>
+    <a href="index.php" class="back-link">&larr; Назад до списку</a>
     <h2>Редагування картки студента</h2>
 
     <?php if (isset($_GET['updated'])): ?>
-        <p style="color: green; border: 1px solid green; padding: 10px; background: #eaffea;">
-            <strong>✅ Дані успішно оновлено!</strong>
+        <p class="alert alert-success">
+            <i class="fa-solid fa-circle-check"></i>
+            <strong>Дані успішно оновлено!</strong>
         </p>
     <?php endif; ?>
 
@@ -51,7 +52,7 @@ require 'blocks/header.php';
 
         <fieldset>
             <legend><strong>Дані студента</strong></legend>
-            <table border="0" cellpadding="5" cellspacing="0" width="100%">
+            <table class="form-table">
                 <tr>
                     <td><label for="full_name">ПІБ Студента: <em>*</em></label></td>
                     <td><input type="text" id="full_name" name="full_name" value="<?= e($student['full_name']) ?>" size="40" required></td>
@@ -116,8 +117,6 @@ require 'blocks/header.php';
             </table>
         </fieldset>
 
-        <br>
-
         <fieldset>
             <legend><strong>Дані батьків</strong></legend>
             <?php foreach (['father' => 'Батько', 'mother' => 'Мати'] as $role => $label):
@@ -126,7 +125,7 @@ require 'blocks/header.php';
                     <h3><?= $label ?></h3>
                     <input type="hidden" name="parents[<?= $role ?>][id]" value="<?= e($p['id']) ?>">
                     <input type="hidden" name="parents[<?= $role ?>][type]" value="<?= $role ?>">
-                    <table border="0" cellpadding="5">
+                    <table class="form-table">
                         <tr>
                             <td><label>ПІБ:</label></td>
                             <td><input type="text" name="parents[<?= $role ?>][full_name]" value="<?= e($p['full_name']) ?>" size="50"></td>
@@ -154,7 +153,6 @@ require 'blocks/header.php';
             <?php endforeach; ?>
         </fieldset>
 
-        <br>
         <div class="form-actions">
             <button type="submit"><strong>Зберегти зміни</strong></button>
             <button type="button" onclick="window.location.href='index.php'">Назад до списку</button>

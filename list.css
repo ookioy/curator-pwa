@@ -1,0 +1,11 @@
+/* index.css / find_student.css — student list pages */
+
+.student-count {
+  font-size: 0.875rem;
+  color: var(--text-2);
+  margin-bottom: 1rem;
+}
+
+.student-count strong {
+  color: var(--text);
+}

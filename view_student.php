@@ -22,15 +22,13 @@ $stmtP->execute([$id]);
 $parents = $stmtP->fetchAll();
 
 $pageTitle = 'Перегляд: ' . htmlspecialchars($student['full_name']);
+$pageCss   = 'view_student.css';
 require 'blocks/header.php';
 ?>
 
 <main>
-    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
-
-        <a href="index.php">&larr; Назад до списку</a>
-
-
+    <div class="page-header">
+        <a href="index.php" class="back-link">&larr; Назад до списку</a>
         <a href="edit_student.php?id=<?= $student['id'] ?>">
             <button type="button">
                 <i class="fa-solid fa-pen"></i> Редагувати профіль
@@ -41,30 +39,31 @@ require 'blocks/header.php';
     <h2>Особова картка студента</h2>
 
     <?php if (isset($_GET['updated'])): ?>
-        <p style="color: green; background: #eaffea; padding: 10px; border: 1px solid green;">
+        <p class="alert alert-success">
+            <i class="fa-solid fa-circle-check"></i>
             Дані успішно оновлено!
         </p>
     <?php endif; ?>
 
     <fieldset>
         <legend><strong>Основна інформація</strong></legend>
-        <table border="0" cellpadding="8" cellspacing="0" width="100%">
+        <table class="view-table">
             <?php
             $fields = [
                 'ПІБ'                  => $student['full_name'],
-                'Дата народження'      => $student['birth_date']          ?? '—',
-                'Адреса реєстрації'    => $student['home_address']         ?? '—',
-                'Фактична адреса'      => $student['actual_address']       ?? '—',
-                'Освіта'               => $student['education']            ?? '—',
-                'Мови'                 => $student['languages']            ?? '—',
-                'Джерело інформації'   => $student['info_source']          ?? '—',
-                'Кар\'єрна ціль'       => $student['career_goal']          ?? '—',
+                'Дата народження'      => $student['birth_date']           ?? '—',
+                'Адреса реєстрації'    => $student['home_address']          ?? '—',
+                'Фактична адреса'      => $student['actual_address']        ?? '—',
+                'Освіта'               => $student['education']             ?? '—',
+                'Мови'                 => $student['languages']             ?? '—',
+                'Джерело інформації'   => $student['info_source']           ?? '—',
+                'Кар\'єрна ціль'       => $student['career_goal']           ?? '—',
                 'Мови програмування'   => $student['programming_languages'] ?? '—',
-                'Хобі/Інтереси'        => $student['activities']           ?? '—',
+                'Хобі/Інтереси'        => $student['activities']            ?? '—',
             ];
             foreach ($fields as $label => $value): ?>
                 <tr>
-                    <td width="30%"><strong><?= e($label) ?>:</strong></td>
+                    <td><strong><?= e($label) ?>:</strong></td>
                     <td><?= nl2br(e($value)) ?></td>
                 </tr>
             <?php endforeach; ?>
@@ -89,9 +88,9 @@ require 'blocks/header.php';
         <?php if (empty($parents)): ?>
             <p><em>Інформація про батьків відсутня.</em></p>
         <?php else: ?>
-            <table border="1" cellpadding="8" cellspacing="0" width="100%">
+            <table class="data-table">
                 <thead>
-                    <tr style="background: #f0f0f0;">
+                    <tr>
                         <th>Роль</th>
                         <th>ПІБ</th>
                         <th>Робота</th>

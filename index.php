@@ -7,6 +7,7 @@ protectPage($pdo);
 
 $students  = $pdo->query('SELECT id, full_name, phone FROM students ORDER BY full_name ASC')->fetchAll();
 $pageTitle = 'Головна - Список групи';
+$pageCss   = 'list.css';
 require 'blocks/header.php';
 ?>
 
@@ -14,22 +15,30 @@ require 'blocks/header.php';
     <h2>Список групи</h2>
 
     <?php if (isset($_GET['deleted'])): ?>
-        <p style="color: green; background: #bfd0b9; padding: 10px;">
+        <p class="alert alert-success">
+            <i class="fa-solid fa-circle-check"></i>
             <strong>Студента успішно видалено!</strong>
+        </p>
+    <?php endif; ?>
+
+    <?php if (isset($_GET['success'])): ?>
+        <p class="alert alert-success">
+            <i class="fa-solid fa-circle-check"></i>
+            <strong>Студента успішно додано!</strong>
         </p>
     <?php endif; ?>
 
     <?php if (empty($students)): ?>
         <p><em>Студентів ще не додано.</em></p>
     <?php else: ?>
-        <p>Всього студентів: <strong><?= count($students) ?></strong></p>
+        <p class="student-count">Всього студентів: <strong><?= count($students) ?></strong></p>
 
-        <table border="1" cellpadding="10" cellspacing="0" width="100%">
+        <table class="data-table">
             <thead>
                 <tr>
-                    <th align="left">ПІБ Студента</th>
-                    <th align="left">Телефон</th>
-                    <th align="center" width="150">Дії</th>
+                    <th>ПІБ Студента</th>
+                    <th>Телефон</th>
+                    <th class="center" style="width:150px">Дії</th>
                 </tr>
             </thead>
             <tbody>
@@ -42,14 +51,14 @@ require 'blocks/header.php';
                             <a href="tel:<?= preg_replace('/[^\d+]/', '', $s['phone']) ?>"><i class="fa-solid fa-phone"></i></a>
                         <?php endif; ?>
                     </td>
-                    <td align="center">
+                    <td class="center">
                         <a href="view_student.php?id=<?= $s['id'] ?>" class="action-btn btn-view" title="Переглянути деталі">
                             <i class="fa-solid fa-eye fa-lg"></i>
                         </a>
                         <a href="edit_student.php?id=<?= $s['id'] ?>" class="action-btn btn-edit" title="Редагувати">
                             <i class="fa-solid fa-pen-to-square fa-lg"></i>
                         </a>
-                        <form action="logic/delete_student.php" method="POST" style="display:inline;">
+                        <form action="logic/delete_student.php" method="POST" class="inline-form">
                             <input type="hidden" name="student_id" value="<?= $s['id'] ?>">
                             <button type="submit" class="action-btn btn-delete" title="Видалити">
                                 <i class="fa-solid fa-trash fa-lg"></i>

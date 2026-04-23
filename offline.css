@@ -1,0 +1,11 @@
+/* offline.css */
+
+.offline-page {
+  text-align: center;
+  padding: 4rem 1.5rem;
+}
+
+.offline-icon {
+  font-size: 3rem;
+  margin-bottom: 1rem;
+}

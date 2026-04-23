@@ -10,14 +10,14 @@ require 'blocks/header.php';
 ?>
 
 <main>
-    <p><a href="index.php">&larr; Назад до списку</a></p>
+    <a href="index.php" class="back-link">&larr; Назад до списку</a>
     <h2>Нова картка студента</h2>
 
     <form action="logic/insert_student.php" method="POST" id="studentForm">
 
         <fieldset>
             <legend><strong>Дані студента</strong></legend>
-            <table border="0" cellpadding="5" cellspacing="0" width="100%">
+            <table class="form-table">
                 <tr>
                     <td><label for="full_name">ПІБ Студента: <em>*</em></label></td>
                     <td><input type="text" id="full_name" name="full_name" size="40" required></td>
@@ -80,15 +80,13 @@ require 'blocks/header.php';
             </table>
         </fieldset>
 
-        <br>
-
         <fieldset>
             <legend><strong>Дані батьків</strong></legend>
             <?php foreach (['father' => 'Батько', 'mother' => 'Мати'] as $type => $label): ?>
                 <div>
                     <h3><?= $label ?></h3>
                     <input type="hidden" name="p_type[]" value="<?= $type ?>">
-                    <table border="0" cellpadding="5">
+                    <table class="form-table">
                         <tr>
                             <td><label>ПІБ:</label></td>
                             <td><input type="text" name="p_full_name[]" size="50"></td>
@@ -114,7 +112,6 @@ require 'blocks/header.php';
             <?php endforeach; ?>
         </fieldset>
 
-        <br>
         <div class="form-actions">
             <button type="submit"><strong>Зберегти картку студента</strong></button>
             <button type="button" onclick="window.location.href='index.php'">Назад до списку</button>

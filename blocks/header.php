@@ -8,6 +8,9 @@
     <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='18' fill='%232e6b57'/><text y='72' x='50' text-anchor='middle' font-size='60' font-family='sans-serif'>🎓</text></svg>">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="style.css">
+    <?php if (!empty($pageCss)): ?>
+        <link rel="stylesheet" href="<?= e($pageCss) ?>">
+    <?php endif; ?>
     <meta name="theme-color" content="#2e6b57">
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-capable" content="yes">

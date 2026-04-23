@@ -6,6 +6,7 @@ require 'logic/helpers.php';
 protectPage($pdo);
 
 $pageTitle = 'Зміна пароля';
+$pageCss   = 'change_password.css';
 require 'blocks/header.php';
 
 $errors = [
@@ -18,31 +19,37 @@ $errors = [
 ?>
 
 <main>
-    <p><a href="index.php">&larr; Назад до списку</a></p>
+    <a href="index.php" class="back-link">&larr; Назад до списку</a>
     <h2>Зміна пароля</h2>
 
     <?php if (isset($_GET['success'])): ?>
-        <p><strong>Пароль успішно змінено!</strong> З міркувань безпеки всі активні сесії скинуто. Будь ласка, увійдіть заново.</p>
+        <p class="alert alert-success">
+            <i class="fa-solid fa-circle-check"></i>
+            <strong>Пароль успішно змінено!</strong> З міркувань безпеки всі активні сесії скинуто. Будь ласка, увійдіть заново.
+        </p>
     <?php endif; ?>
 
     <?php if (isset($_GET['error']) && isset($errors[$_GET['error']])): ?>
-        <p><strong>Помилка: <?= e($errors[$_GET['error']]) ?></strong></p>
+        <p class="alert alert-error">
+            <i class="fa-solid fa-circle-exclamation"></i>
+            <strong>Помилка:</strong> <?= e($errors[$_GET['error']]) ?>
+        </p>
     <?php endif; ?>
 
-    <form method="POST" action="logic/update_password.php">
+    <form method="POST" action="logic/update_password.php" class="password-form">
         <fieldset>
             <legend><strong>Зміна пароля адміністратора</strong></legend>
             <p>
-                <label for="current_password">Поточний пароль:</label><br>
+                <label for="current_password">Поточний пароль:</label>
                 <input type="password" id="current_password" name="current_password" size="30" required autofocus>
             </p>
             <p>
-                <label for="new_password">Новий пароль:</label><br>
+                <label for="new_password">Новий пароль:</label>
                 <input type="password" id="new_password" name="new_password" size="30" required minlength="6">
-                <br><small>(Мінімум 6 символів)</small>
+                <small>(Мінімум 6 символів)</small>
             </p>
             <p>
-                <label for="confirm_password">Підтвердіть новий пароль:</label><br>
+                <label for="confirm_password">Підтвердіть новий пароль:</label>
                 <input type="password" id="confirm_password" name="confirm_password" size="30" required minlength="6">
             </p>
             <p><button type="submit">Змінити пароль</button></p>

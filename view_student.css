@@ -1,0 +1,43 @@
+/* view_student.css — student profile view page */
+
+.view-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.view-table td {
+  padding: 0.45rem 0.2rem;
+  vertical-align: top;
+}
+
+.view-table td:first-child {
+  width: 200px;
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--text-2);
+  white-space: nowrap;
+  padding-right: 1rem;
+}
+
+.view-table td:last-child {
+  color: var(--text);
+  font-size: 0.875rem;
+}
+
+@media (max-width: 680px) {
+  .view-table,
+  .view-table tbody,
+  .view-table tr,
+  .view-table td {
+    display: block;
+    width: 100%;
+  }
+
+  .view-table td:first-child {
+    width: 100%;
+    padding-right: 0;
+    padding-bottom: 0.1rem;
+    padding-top: 0.55rem;
+    font-size: 0.78rem;
+  }
+}
